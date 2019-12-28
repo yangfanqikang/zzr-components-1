@@ -10,11 +10,19 @@ module.exports = {
     ],
     sidebar: [
       {
-        title: '入门',
+        title: '开发指南',
         collapsable: false,
         children: [
           '/install/',
           '/get-started/',
+        ]
+      },
+      {
+        title: '组件',
+        collapsable: false,
+        children: [
+          '/components/',
+          '/components/color',
         ]
       },
     ]
