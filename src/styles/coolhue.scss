@@ -25,6 +25,7 @@ $jd-list6: #03e4ff, #027ef2;
 $jd-list7: #ff8d4f, #fa2311;
 $jd-list8: #fdb92a, #fd8703;
 $jd-list9: #384e87, #171f4e;
+
 // ---- 京东灰度值gray ----
 $jd-darker-1: #252525 !default; //用于重要性文字信息,内页标题:如导航名称,大板块标题,类目名称
 $jd-darker-2: #686868 !default; //用户普通级段落信息,引导词:如商品详情段落标题信息
@@ -33,6 +34,13 @@ $jd-darker-4: #bfbfbf !default; //用于下划线,页面中辅助性功能图标
 $jd-darker-5: #d7d7d7 !default; //用于分割线,标签描边,普通按钮描边
 $jd-darker-6: #f8f8f8 !default; //用于分割模块底色
 $jd-darker-7: #fff !default; //白色
+
+// ---- 万能辅助色 ----
+$primary-info: #2db7f5!default; //信息色
+$primary-success: #19be6b!default; //成功色
+$primary-warning: #ff9900!default; //警告色
+$primary-error: #ed4014!default; //错误色
+// ----京东字体 ----
 
 $fs-1: 36px; //一般用于按钮:如页面底部的确认等
 $fs-2: 32px; //用于引导性的地方:如导航名称

@@ -91,35 +91,11 @@
     </div>
     <div class="neuter-color">
       <h3>中性色</h3>
-      <p>将灰度值分为10份</p>
+      <p>将灰度值分为11份</p>
       <div class="neuter-color-many">
         <div>
           <h4>黑</h4>
-          <p>9</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>8</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>7</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>6</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>5</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>4</p>
-        </div>
-        <div>
-          <h4>黑</h4>
-          <p>3</p>
+          <p>1</p>
         </div>
         <div>
           <h4>黑</h4>
@@ -127,7 +103,31 @@
         </div>
         <div>
           <h4>黑</h4>
-          <p>1</p>
+          <p>3</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>4</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>5</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>6</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>7</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>8</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>9</p>
         </div>
       </div>
     </div>
@@ -141,11 +141,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../styles/coolhue";
-  p{
-    line-height: 1.5em;
-    text-transform: uppercase;
+  /*@import '../../styles/reset.css';*/
+  h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
   }
+  h1{
+    font-size:36px;
+  }
+  h2{
+    font-size:32px
+  }
+  h3{
+    font-size:28px
+  }
+  h4{
+    font-size:24px
+  }
+  h5{
+    font-size:20px
+  }
+  h6{
+    font-size:16px
+  }
+  @import "../../styles/coolhue";
   .flex-column{
     display: flex;
     flex-flow: column nowrap;
@@ -160,7 +180,10 @@ export default {
     text-align: center;
   }
   .zzr-color {
-    padding: 20px;
+    p{
+      line-height: 1em;
+      text-transform: uppercase;
+    }
     >.primary-red {
       margin-top: 20px;
       >.primary-color{
@@ -189,6 +212,7 @@ export default {
       >.classic-color{
         margin-top: 20px;
         >.classic-color-example1{
+          margin-top: 20px;
           margin-bottom: 20px;
           >h4{
             margin-bottom: 10px;

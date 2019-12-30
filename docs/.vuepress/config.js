@@ -6,7 +6,7 @@ module.exports = {
     nav: [
       {text: '主页', link: '/'},
       {text: '文档', link: '/guide/'},
-      {text: '交流', link: 'https://google.com'},
+      {text: '交流', link: 'https://yangfanqikang.github.io/zzr-components-1'},
     ],
     sidebar: [
       {
@@ -21,8 +21,24 @@ module.exports = {
         title: '组件',
         collapsable: false,
         children: [
-          '/components/',
-          '/components/color',
+          {
+            title: '基础',
+            collapsable: false,
+            children: [
+              '/components/color',
+              '/components/text',
+              '/components/icon',
+              '/components/button',
+            ]
+          },
+          {
+            title: '表单',
+            collapsable: false,
+            children: [
+              '/components/form',
+            ]
+          }
+
         ]
       },
     ]
