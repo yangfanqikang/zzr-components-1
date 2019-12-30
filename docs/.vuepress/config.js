@@ -25,19 +25,70 @@ module.exports = {
             title: '基础',
             collapsable: false,
             children: [
-              '/components/color',
-              '/components/text',
-              '/components/icon',
-              '/components/button',
+              '/components/basic/color',
+              '/components/basic/text',
+              '/components/basic/icon',
+              '/components/basic/button',
             ]
           },
           {
             title: '表单',
             collapsable: false,
             children: [
-              '/components/form',
+              '/components/form/radio2',
+              '/components/form/checkbox',
+              '/components/form/input',
+              '/components/form/select',
+              '/components/form/switch',
+              '/components/form/cascader',
+              '/components/form/rate',
+              '/components/form/slide',
+              '/components/form/TimePicker',
+              '/components/form/DatePicker',
+              '/components/form/uploader',
+              '/components/form/form',
             ]
-          }
+          },
+          {
+            title: '数据',
+            collapsable: false,
+            children: [
+              '/components/data/table',
+              '/components/data/tag',
+              '/components/data/badge',
+              '/components/data/progress',
+              '/components/data/tree',
+              '/components/data/avatar',
+              '/components/data/pagination'
+            ]
+          },
+          {
+            title: '导航',
+            collapsable: false,
+            children: [
+              '/components/nav/NavMenu',
+              '/components/nav/BreadCrumd',
+              '/components/nav/Dropdown',
+              '/components/nav/PageHeader',
+              '/components/nav/tabs',
+              '/components/nav/steps'
+            ]
+          },
+          {
+            title: '提示',
+            collapsable: false,
+            children: [
+              '/components/notice/alert',
+              '/components/notice/confirm',
+              '/components/notice/dialog',
+              '/components/notice/loading',
+              '/components/notice/message',
+              '/components/notice/MessageBox',
+              '/components/notice/notification',
+              '/components/notice/popover',
+              '/components/notice/ToolTip',
+            ]
+          },
 
         ]
       },

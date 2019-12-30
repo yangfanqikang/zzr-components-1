@@ -1,4 +1,4 @@
-# 颜色
+# colors 颜色
 
 <ClientOnly>
   <color-demos></color-demos>

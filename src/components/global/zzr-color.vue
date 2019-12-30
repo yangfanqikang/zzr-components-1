@@ -1,6 +1,6 @@
 <template>
   <div class="zzr-color">
-    <h2>赤橙黄绿青蓝紫</h2>
+    <h5>赤橙黄绿青蓝紫</h5>
     <p>按色相搭配</p>
     <div class="primary-red">
       <div class="primary-color">
@@ -22,9 +22,9 @@
         </div>
       </div>
       <div class="classic-color">
-        <h3>经典配色</h3>
+        <h5>★经典配色★</h5>
         <div class="classic-color-example1">
-          <h4>京东单色</h4>
+          <h4>◆京东单色</h4>
           <div class="jd-color-many">
             <div>
               <h5>主色</h5>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="classic-color-example2">
-          <h4>京东渐变色</h4>
+          <h4>◆京东渐变色</h4>
           <div class="jd-color-gradient">
             <div>
               <h5>红-渐变</h5>

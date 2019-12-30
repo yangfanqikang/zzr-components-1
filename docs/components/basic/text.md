@@ -1,4 +1,4 @@
-# 文字
+# text 文字
 
 ```javascript
 import {Button} from 'zzr'
