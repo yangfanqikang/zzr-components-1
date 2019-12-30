@@ -42,7 +42,8 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: { // webpack在打包时，首先会把图片打包到 /dist/images/ 文件夹下，但是在css文件中引用时，会将路径替换为下面的publicPath + name。
-              publicPath: '../'
+              publicPath: '../',
+              resources: ['../src/styles/coolhue.scss']
             }
           },
           'css-loader',

@@ -52,7 +52,7 @@
               <p>#fa644c<br>#f61207</p>
             </div>
             <div>
-              <h5>红-紫渐变</h5>
+              <h5>紫-渐变</h5>
               <p>#d37ef5<br>#880cdc</p>
             </div>
             <div>
@@ -68,21 +68,67 @@
       </div>
     </div>
     <div class="assist-color">
-      <h3>辅助色</h3>
-      <p>View UI（iView） 使用较为安全的蓝色作为主色调，其中 Light Primary 常用于 hover，Dark Primary 常用于 active。</p>
+      <h3>万能辅助色</h3>
+      <p>辅助色是具有代表性的颜色，常用于信息提示，比如成功、警告和失败。</p>
       <div class="assist-color-many">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div>
+          <h4>信息色</h4>
+          <p>#2db7f5</p>
+        </div>
+        <div>
+          <h4>成功色</h4>
+          <p>#19be6b</p>
+        </div>
+        <div>
+          <h4>警告色</h4>
+          <p>#ff9900</p>
+        </div>
+        <div>
+          <h4>错误色</h4>
+          <p>#ed4014</p>
+        </div>
       </div>
     </div>
     <div class="neuter-color">
       <h3>中性色</h3>
-      <p>View UI（iView） 使用较为安全的蓝色作为主色调，其中 Light Primary 常用于 hover，Dark Primary 常用于 active。</p>
-      <div>
-        <div class="Primary"></div>
-        <div class="Light-Primary"></div>
-        <div class="Dark-Primary"></div>
+      <p>将灰度值分为10份</p>
+      <div class="neuter-color-many">
+        <div>
+          <h4>黑</h4>
+          <p>9</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>8</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>7</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>6</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>5</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>4</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>3</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>2</p>
+        </div>
+        <div>
+          <h4>黑</h4>
+          <p>1</p>
+        </div>
       </div>
     </div>
   </div>
@@ -96,18 +142,34 @@ export default {
 
 <style lang="scss" scoped>
   @import "../../styles/coolhue";
-
+  p{
+    line-height: 1.5em;
+    text-transform: uppercase;
+  }
+  .flex-column{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .div-block{
+    width: 100px;
+    height: 100px;
+    border-radius: $border-radius-base;
+    color: $primary-white;
+    text-align: center;
+  }
   .zzr-color {
+    padding: 20px;
     >.primary-red {
+      margin-top: 20px;
       >.primary-color{
         >.primary-color-3{
+          margin-top: 20px;
           @include flexCenter($justify-content: space-between);
           >div{
-            width: 100px;
-            height: 100px;
-            border-radius: $border-radius-base;
-            color: $primary-white;
-            text-align: center;
+            @extend .div-block;
+            @extend .flex-column;
             &:nth-child(1){
               background-color: $primary-red;
             }
@@ -125,7 +187,12 @@ export default {
         }
       }
       >.classic-color{
+        margin-top: 20px;
         >.classic-color-example1{
+          margin-bottom: 20px;
+          >h4{
+            margin-bottom: 10px;
+          }
           >.jd-color-many{
             @include flexCenter($justify-content: space-between);
             p{
@@ -133,11 +200,8 @@ export default {
               text-transform: uppercase;
             }
             >div{
-              width: 100px;
-              height: 100px;
-              border-radius: $border-radius-base;
-              color: $primary-white;
-              text-align: center;
+              @extend .div-block;
+              @extend .flex-column;
               &:nth-child(1){
                 background-color: $jd-primary;
               }
@@ -158,6 +222,10 @@ export default {
           }
         }
         >.classic-color-example2{
+          margin-bottom: 20px;
+          >h4{
+            margin-bottom: 10px;
+          }
           >.jd-color-gradient{
             @include flexCenter($justify-content: space-between);
             p{
@@ -165,11 +233,8 @@ export default {
               text-transform: uppercase;
             }
             >div{
-              width: 100px;
-              height: 100px;
-              border-radius: $border-radius-base;
-              color: $primary-white;
-              text-align: center;
+              @extend .div-block;
+              @extend .flex-column;
               &:nth-child(1){
                 background-image: linear-gradient( 135deg, nth($jd-list1, 1) 0%, nth($jd-list1, 2) 100%);
               }
@@ -183,6 +248,69 @@ export default {
                 background-image: linear-gradient( 135deg, nth($jd-list6, 1) 0%, nth($jd-list6, 2) 100%);
               }
             }
+          }
+        }
+      }
+    }
+    >.assist-color{
+      margin-top: 20px;
+      >.assist-color-many{
+        margin-top: 20px;
+        @include flexCenter($justify-content: space-between);
+        >div{
+          @extend .div-block;
+          @extend .flex-column;
+          &:nth-child(1){
+            background-color: $primary-info;
+          }
+          &:nth-child(2){
+            background-color: $primary-success;
+          }
+          &:nth-child(3){
+            background-color: $primary-warning;
+          }
+          &:nth-child(4){
+            background-color: $primary-error;
+          }
+        }
+      }
+    }
+    >.neuter-color{
+      margin-top: 20px;
+      .neuter-color-many{
+        margin-top: 20px;
+        @include flexCenter($justify-content: space-between);
+        >div{
+          @extend .div-block;
+          @extend .flex-column;
+          width: 80px;
+          height: 80px;
+          &:nth-child(1){
+            background-color: darken($primary-white,10%);
+          }
+          &:nth-child(2){
+            background-color: darken($primary-white,20%);
+          }
+          &:nth-child(3){
+            background-color: darken($primary-white,30%);
+          }
+          &:nth-child(4){
+            background-color: darken($primary-white,40%);
+          }
+          &:nth-child(5){
+            background-color: darken($primary-white,50%);
+          }
+          &:nth-child(6){
+            background-color: darken($primary-white,60%);
+          }
+          &:nth-child(7){
+            background-color: darken($primary-white,70%);
+          }
+          &:nth-child(8){
+            background-color: darken($primary-white,80%);
+          }
+          &:nth-child(9){
+            background-color: darken($primary-white,90%);
           }
         }
       }
