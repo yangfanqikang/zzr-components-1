@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ZzrColor from './global/zzr-color'
+import ZzrColor from '../views/example/zzr-color'
 export default {
   name: 'HelloWorld',
   components: {

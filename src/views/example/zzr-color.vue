@@ -1,11 +1,15 @@
 <template>
   <div class="zzr-color">
-    <h5>赤橙黄绿青蓝紫</h5>
-    <p>按色相搭配</p>
+    <div class="zzr-color-des">
+      <h4>赤橙黄绿青蓝紫 </h4>
+      <p>--按色相搭配</p>
+    </div>
     <div class="primary-red">
       <div class="primary-color">
-        <h3>红色</h3>
-        <p>zzr UI 使用绯红作为作为主色调时，其中增强亮度为hover，增强深度为active。</p>
+        <div class="primary-color-des">
+          <h3>红色</h3>
+          <p>--zzr UI 使用绯红作为作为主色调时，其中增强亮度为hover，增强深度为active。</p>
+        </div>
         <div class="primary-color-3">
           <div>
             <h4>主色</h4>
@@ -68,8 +72,10 @@
       </div>
     </div>
     <div class="assist-color">
-      <h3>万能辅助色</h3>
-      <p>辅助色是具有代表性的颜色，常用于信息提示，比如成功、警告和失败。</p>
+      <div class="assist-color-des">
+        <h3>万能辅助色</h3>
+        <p>--辅助色是具有代表性的颜色，常用于信息提示，比如成功、警告和失败。</p>
+      </div>
       <div class="assist-color-many">
         <div>
           <h4>信息色</h4>
@@ -90,8 +96,10 @@
       </div>
     </div>
     <div class="neuter-color">
-      <h3>中性色</h3>
-      <p>将灰度值分为11份</p>
+      <div class="neuter-color-des">
+        <h3>中性色</h3>
+        <p>--将灰度值分为11份</p>
+      </div>
       <div class="neuter-color-many">
         <div>
           <h4>黑</h4>
@@ -141,30 +149,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /*@import '../../styles/reset.css';*/
-  h1,h2,h3,h4,h5,h6{
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-  }
-  h1{
-    font-size:36px;
-  }
-  h2{
-    font-size:32px
-  }
-  h3{
-    font-size:28px
-  }
-  h4{
-    font-size:24px
-  }
-  h5{
-    font-size:20px
-  }
-  h6{
-    font-size:16px
-  }
+  @import '../../styles/reset.css';
   @import "../../styles/coolhue";
   .flex-column{
     display: flex;
@@ -180,6 +165,9 @@ export default {
     text-align: center;
   }
   .zzr-color {
+    .zzr-color-des,.primary-color-des,.assist-color-des,.neuter-color-des{
+      @include flexCenter($align-items: center, $justify-content: flex-start)
+    }
     p{
       line-height: 1em;
       text-transform: uppercase;
@@ -307,8 +295,8 @@ export default {
         >div{
           @extend .div-block;
           @extend .flex-column;
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           &:nth-child(1){
             background-color: darken($primary-white,10%);
           }
