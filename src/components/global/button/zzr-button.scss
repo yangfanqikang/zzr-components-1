@@ -1,0 +1,135 @@
+@import "../../../styles/coolhue";
+.zzr-button-default{
+  @include flexCenter($display: inline-flex);
+  font-size: 16px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 1em;
+  text-align: center;
+  border-radius: $border-radius-small;
+  border: 1px solid $border-color-base;
+  color: $color-text-common;
+  background-color: #fff;
+  &:hover{
+    cursor: pointer;
+    background-color: $primary-color;
+    color: #fff;
+    border:none;
+  }
+  &.is-round{
+    border-radius: 20px;
+  }
+  &.is-circle{
+    width: 40px;
+    border-radius: 20px;
+    font-size: 1px;
+  }
+}
+.zzr-button-primary{
+  color: #fff;
+  border: 1px solid $primary-color;
+  background-color: $primary-color;
+  &:hover{
+    background-color: lighten($primary-color,10%);
+  }
+  &.is-plain{
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    background-color: lighten($primary-color,45%);
+    &:hover{
+      background-color: lighten($primary-color,10%);
+      color: #fff;
+    }
+  }
+}
+.zzr-button-info{
+  color: #fff;
+  border: 1px solid $primary-info;
+  background-color: $primary-info;
+  &:hover{
+    background-color: lighten($primary-info,10%);
+  }
+}
+.zzr-button-info.is-plain{
+  border: 1px solid $primary-info;
+  color: $primary-info;
+  background-color: lighten($primary-info,40%);
+  &:hover{
+    background-color: lighten($primary-info,10%);
+    color: #fff;
+  }
+}
+.zzr-button-success{
+  color: #fff;
+  border: 1px solid $primary-success;
+  background-color: $primary-success;
+  &:hover{
+    background-color: lighten($primary-success,10%);
+  }
+}
+.zzr-button-success.is-plain{
+  border: 1px solid $primary-success;
+  color: $primary-success;
+  background-color: lighten($primary-success,55%);
+  &:hover{
+    background-color: lighten($primary-success,10%);
+    color: #fff;
+  }
+}
+.zzr-button-warning{
+  color: #fff;
+  border: 1px solid $primary-warning;
+  background-color: $primary-warning;
+  &:hover{
+    background-color: lighten($primary-warning,10%);
+  }
+}
+.zzr-button-warning.is-plain{
+  border: 1px solid $primary-warning;
+  color: $primary-warning;
+  background-color: lighten($primary-warning,47%);
+  &:hover{
+    background-color: lighten($primary-warning,10%);
+    color: #fff;
+  }
+}
+.zzr-button-error{
+  color: #fff;
+  border: 1px solid $primary-error;
+  background-color: $primary-error;
+  &:hover{
+    background-color: lighten($primary-error,10%);
+  }
+}
+.zzr-button-error.is-plain{
+  border: 1px solid $primary-error;
+  color: $primary-error;
+  background-color: lighten($primary-error,45%);
+  &:hover{
+    background-color: lighten($primary-error,10%);
+    color: #fff;
+  }
+}
+.zzr-button-disabled{
+  color: $disabled-color;
+  border: 1px solid $disabled-bg;
+  background-color: $disabled-bg;
+  &:hover{
+    cursor: no-drop;
+    background-color: lighten($disabled-bg,5%);
+  }
+}
+.zzr-button-disabled.is-plain{
+  border: 1px solid $disabled-bg;
+  color: $disabled-bg;
+  background-color: lighten($disabled-bg,45%);
+  &:hover{
+    cursor: no-drop;
+    background-color: lighten($disabled-bg,5%);
+    color: #333;
+  }
+}
+.zzr-button-content{
+  margin-left: 5px;
+}

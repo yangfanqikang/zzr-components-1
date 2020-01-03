@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <zzr-button></zzr-button>
     <zzr-color></zzr-color>
   </div>
 </template>
