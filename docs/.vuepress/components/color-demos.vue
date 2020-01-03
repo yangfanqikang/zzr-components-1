@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ZzrColor from '../../../src/components/global/zzr-color'
+  import ZzrColor from '../../../src/views/example/zzr-color'
   export default {
     name: 'color-demos',
     components: {

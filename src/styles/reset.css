@@ -63,7 +63,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: tahoma, arial, "Hiragino Sans GB", "微软雅黑", simsun, sans-serif
+    font-family: tahoma, arial, "Hiragino Sans GB", "微软雅黑", simsun, sans-serif;
 }
 
 h1,
@@ -184,12 +184,12 @@ sub {
     vertical-align: baseline
 }
 
-html {
-    overflow-x: hidden;
-    height: 100%;
-    font-size: 50px;
-    -webkit-tap-highlight-color: transparent;
-}
+/*html {*/
+/*    overflow-x: hidden;*/
+/*    height: 100%;*/
+/*    font-size: 50px;*/
+/*    -webkit-tap-highlight-color: transparent;*/
+/*}*/
 
 body {
     font-family: Arial, "Microsoft Yahei", "Helvetica Neue", Helvetica, sans-serif;
@@ -207,6 +207,24 @@ hr {
 }
 
 a {
-    color: #25a4bb;
+    color: #333333;
     text-decoration: none;
+}
+h1{
+    font-size:32px;
+}
+h2{
+    font-size:28px
+}
+h3{
+    font-size:24px
+}
+h4{
+    font-size:20px
+}
+h5{
+    font-size:18px
+}
+h6{
+    font-size:16px
 }

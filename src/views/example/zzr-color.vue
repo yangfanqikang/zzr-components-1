@@ -1,11 +1,15 @@
 <template>
   <div class="zzr-color">
-    <h5>赤橙黄绿青蓝紫</h5>
-    <p>按色相搭配</p>
+    <div class="zzr-color-des">
+      <h4>赤橙黄绿青蓝紫 </h4>
+      <p>--按色相搭配</p>
+    </div>
     <div class="primary-red">
       <div class="primary-color">
-        <h3>红色</h3>
-        <p>zzr UI 使用绯红作为作为主色调时，其中增强亮度为hover，增强深度为active。</p>
+        <div class="primary-color-des">
+          <h3>红色</h3>
+          <p>--zzr UI 使用绯红作为作为主色调时，其中增强亮度为hover，增强深度为active。</p>
+        </div>
         <div class="primary-color-3">
           <div>
             <h4>主色</h4>
@@ -68,8 +72,10 @@
       </div>
     </div>
     <div class="assist-color">
-      <h3>万能辅助色</h3>
-      <p>辅助色是具有代表性的颜色，常用于信息提示，比如成功、警告和失败。</p>
+      <div class="assist-color-des">
+        <h3>万能辅助色</h3>
+        <p>--辅助色是具有代表性的颜色，常用于信息提示，比如成功、警告和失败。</p>
+      </div>
       <div class="assist-color-many">
         <div>
           <h4>信息色</h4>
@@ -90,8 +96,10 @@
       </div>
     </div>
     <div class="neuter-color">
-      <h3>中性色</h3>
-      <p>将灰度值分为11份</p>
+      <div class="neuter-color-des">
+        <h3>中性色</h3>
+        <p>--将灰度值分为11份</p>
+      </div>
       <div class="neuter-color-many">
         <div>
           <h4>黑</h4>
@@ -130,6 +138,48 @@
           <p>9</p>
         </div>
       </div>
+      <div class="neuter-color-des">
+        <h3>用途</h3>
+        <p> --用于文本/背景/边框</p>
+      </div>
+      <div class="neuter-color-use">
+        <div class="neuter-color-use-title">
+          <div>
+            <h4>主要标题</h4>
+            <p>#333</p>
+          </div>
+          <div>
+            <h4>常用标题</h4>
+            <p>#666</p>
+          </div>
+          <div>
+            <h4>次要标题</h4>
+            <p>#999</p>
+          </div>
+          <div>
+            <h4>占位文字</h4>
+            <p>#999</p>
+          </div>
+        </div>
+        <div class="neuter-color-use-border">
+          <div>
+            <h4>一级边框</h4>
+            <p>#DCDFE6</p>
+          </div>
+          <div>
+            <h4>二级边框</h4>
+            <p>#E4E7ED</p>
+          </div>
+          <div>
+            <h4>三级边框</h4>
+            <p>#EBEEF5</p>
+          </div>
+          <div>
+            <h4>四级边框</h4>
+            <p>#F2F6FC</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -141,30 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /*@import '../../styles/reset.css';*/
-  h1,h2,h3,h4,h5,h6{
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-  }
-  h1{
-    font-size:36px;
-  }
-  h2{
-    font-size:32px
-  }
-  h3{
-    font-size:28px
-  }
-  h4{
-    font-size:24px
-  }
-  h5{
-    font-size:20px
-  }
-  h6{
-    font-size:16px
-  }
+  @import '../../styles/reset.css';
   @import "../../styles/coolhue";
   .flex-column{
     display: flex;
@@ -180,6 +207,9 @@ export default {
     text-align: center;
   }
   .zzr-color {
+    .zzr-color-des,.primary-color-des,.assist-color-des,.neuter-color-des{
+      @include flexCenter($align-items: center, $justify-content: flex-start)
+    }
     p{
       line-height: 1em;
       text-transform: uppercase;
@@ -302,13 +332,13 @@ export default {
     >.neuter-color{
       margin-top: 20px;
       .neuter-color-many{
-        margin-top: 20px;
+        margin: 20px 0;
         @include flexCenter($justify-content: space-between);
         >div{
           @extend .div-block;
           @extend .flex-column;
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           &:nth-child(1){
             background-color: darken($primary-white,10%);
           }
@@ -336,6 +366,48 @@ export default {
           &:nth-child(9){
             background-color: darken($primary-white,90%);
           }
+        }
+      }
+      .neuter-color-use{
+        >.neuter-color-use-title,.neuter-color-use-border{
+          margin: 20px 0;
+          @include flexCenter($justify-content: space-between);
+          >div{
+            @extend .div-block;
+            @extend .flex-column;
+          }
+        }
+        >.neuter-color-use-title{
+          >div:nth-child(1){
+            background-color: $color-text-primary;
+          }
+          >div:nth-child(2){
+            background-color: $color-text-common;
+          }
+          >div:nth-child(3){
+            background-color: $color-text-second;
+          }
+          >div:nth-child(4){
+            background-color: $color-text-hold;
+          }
+        }
+        >.neuter-color-use-border{
+          p,h4{
+            color: $color-text-primary;
+          }
+          >div:nth-child(1){
+            background-color: $color-border-1;
+          }
+          >div:nth-child(2){
+            background-color: $color-border-2;
+          }
+          >div:nth-child(3){
+            background-color: $color-border-3;
+          }
+          >div:nth-child(4){
+            background-color: $color-border-4;
+          }
+
         }
       }
     }
