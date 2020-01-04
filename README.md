@@ -1,6 +1,7 @@
 # zzr-components-1
 
 ## Project setup
+注意:不要使用cnpm
 ```
 npm install
 ```
