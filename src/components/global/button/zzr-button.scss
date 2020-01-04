@@ -1,4 +1,12 @@
 @import "../../../styles/coolhue";
+@keyframes rotating1 {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .zzr-button-default{
   @include flexCenter($display: inline-flex);
   font-size: 16px;
@@ -15,15 +23,35 @@
     cursor: pointer;
     background-color: $primary-color;
     color: #fff;
-    border:none;
+    border: 1px solid transparent;
   }
   &.is-round{
     border-radius: 20px;
+  }
+  .zzr-button-icon{
+    margin-right: 5px;
+  }
+
+  .zzr-button-icon-loading{
+    animation: rotating1 1s infinite linear;
   }
   &.is-circle{
     width: 40px;
     border-radius: 20px;
     font-size: 1px;
+    .zzr-button-icon{
+      margin-right: 0;
+    }
+  }
+  &.is-disabled{
+    opacity: .5;
+    cursor: no-drop;
+  }
+  &.icon-inverted{
+    flex-direction: row-reverse;
+    .zzr-button-icon{
+      margin: 0 0 0 5px;
+    }
   }
 }
 .zzr-button-primary{
@@ -131,5 +159,4 @@
   }
 }
 .zzr-button-content{
-  margin-left: 5px;
 }
