@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/reset.css';
+  /*@import '../../styles/reset.css';*/
   @import "../../styles/coolhue";
   .flex-column{
     display: flex;
