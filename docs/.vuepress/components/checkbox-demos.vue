@@ -1,6 +1,9 @@
 <template>
     <div class="checkbox-demos">
-      <zzr-checkbox></zzr-checkbox>
+      <div>
+        <zzr-checkbox v-model="checkboxDemo1" label="1">复选框1</zzr-checkbox>
+        <zzr-checkbox v-model="checkboxDemo1" label="2">复选框2</zzr-checkbox>
+      </div>
     </div>
 </template>
 
@@ -8,7 +11,12 @@
   import ZzrCheckbox from '../../../src/components/global/checkbox/zzr-checkbox'
   export default {
     name: 'checkbox-demos',
-    components: { ZzrCheckbox }
+    components: { ZzrCheckbox },
+    data () {
+      return {
+        checkboxDemo1: ''
+      }
+    },
   }
 </script>
 

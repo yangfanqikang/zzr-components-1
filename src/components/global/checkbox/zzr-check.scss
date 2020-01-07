@@ -1,0 +1,61 @@
+@import "../../../styles/coolhue";
+.zzr-checkbox{
+  position: relative;
+  cursor: pointer;
+  .zzr-checkbox__input{
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    border-color: $border-color-base;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    width: 14px;
+    height: 14px;
+    &.is-checked{
+
+    }
+    .zzr-checkbox__inner{
+      box-sizing: border-box;
+      background-color: red;
+      border-color: $border-color-base;
+      border-radius: $border-radius-base;
+      width: 14px;
+      height: 14px;
+      &:after{
+        box-sizing: content-box;
+        content:'';
+        border: 1px solid $border-color-base;
+        border-left: 0;
+        border-top: 0;
+        position: absolute;
+        height: 7px;
+        left: 4px;
+        top: 1px;
+        transform: rotate(45deg) scale(0);
+        width: 3px;
+        transition: transform .15s ease-in .05s;
+        transform-origin: center;
+      }
+      &:hover{
+        border-color: $primary-color;
+      }
+    }
+    .zzr-checkbox__original{
+      opacity: 0;
+      outline: none;
+      position: absolute;
+      margin: 0;
+      width: 0;
+      height: 0;
+      z-index: -1;
+    }
+  }
+  .zzr-checkbox__label{
+    padding-left: 10px;
+    line-height: 19px;
+  }
+  &:last-of-type{
+    margin-right: 0;
+  }
+}
