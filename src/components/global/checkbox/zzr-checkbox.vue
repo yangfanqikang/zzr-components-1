@@ -1,8 +1,19 @@
 <template>
     <label class="zzr-checkbox">
-      <span class="zzr-checkbox__input">
-        <span class="zzr-checkbox__inner"></span>
-        <input type="checkbox" class="zzr-checkbox__original" v-model="model">
+      <span class="zzr-checkbox__input" :class="[
+        { 'is-checked': isChecked }
+      ]">
+        <span class="zzr-checkbox__inner" :class="[
+          {
+           'is-checked': isChecked,
+          'is-focus': focus
+          }
+        ]"></span>
+        <input type="checkbox" class="zzr-checkbox__original"
+               v-model="model"
+               @change="handleChange"
+               @focus="focus = true"
+               @blur="focus = false">
       </span>
       <span class="zzr-checkbox__label">
         <slot></slot>
@@ -15,12 +26,27 @@
 export default {
   name: 'zzr-checkbox',
   props: {
-    label: {}
+    label: {},
+    checked: Boolean
   },
   computed: {
     model: {
       get () {},
       set () {}
+    }
+  },
+  data () {
+    return {
+      focus: false,
+      isChecked: false
+    }
+  },
+  created () {
+    this.isChecked = this.checked
+  },
+  methods: {
+    handleChange () {
+      this.isChecked = !this.isChecked
     }
   }
 }

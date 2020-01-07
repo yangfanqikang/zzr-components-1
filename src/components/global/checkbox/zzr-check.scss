@@ -1,41 +1,42 @@
 @import "../../../styles/coolhue";
 .zzr-checkbox{
   position: relative;
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   .zzr-checkbox__input{
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     box-sizing: border-box;
-    border-color: $border-color-base;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 3px;
-    width: 14px;
-    height: 14px;
-    &.is-checked{
-
-    }
     .zzr-checkbox__inner{
       box-sizing: border-box;
-      background-color: red;
-      border-color: $border-color-base;
-      border-radius: $border-radius-base;
+      position: relative;
       width: 14px;
       height: 14px;
+      border: 1px solid $border-color-base;
+      border-radius: 3px;
       &:after{
         box-sizing: content-box;
-        content:'';
-        border: 1px solid $border-color-base;
+        content: "";
+        border: 1px solid $primary-white;
         border-left: 0;
         border-top: 0;
-        position: absolute;
         height: 7px;
         left: 4px;
+        position: absolute;
         top: 1px;
-        transform: rotate(45deg) scale(0);
+        transform: rotate(45deg) scaleY(0);
         width: 3px;
         transition: transform .15s ease-in .05s;
         transform-origin: center;
+      }
+      &.is-checked{
+        background-color: $primary-color;
+        border-color: $primary-color;
+        color: $primary-color;
+        &:after{
+          transform: rotate(45deg) scale(1);
+        }
       }
       &:hover{
         border-color: $primary-color;
@@ -49,6 +50,11 @@
       width: 0;
       height: 0;
       z-index: -1;
+    }
+    &.is-checked{
+      & + .zzr-checkbox__label{
+        color: $primary-color;
+      }
     }
   }
   .zzr-checkbox__label{
