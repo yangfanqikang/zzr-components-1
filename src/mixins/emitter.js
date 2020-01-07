@@ -1,6 +1,6 @@
 // vue之自行实现派发与广播-dispatch与broadcast https://www.cnblogs.com/raind/p/10241720.html
 /**
- * 广播
+ * 广播 --父组件传给子组件?
  * 这里面的核心思想是通过递归或遍历来查找要broadcast或dispatch的组件名字，然后在组件自身上emit与on
  * @param componentName
  * @param eventName

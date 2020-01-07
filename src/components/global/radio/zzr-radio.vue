@@ -49,7 +49,7 @@ export default {
   name: 'ZzrRadio',
 
   mixins: [Emitter],
-
+  // 与表单form一起用才会生效
   inject: {
     zzrForm: {
       default: ''
@@ -78,12 +78,15 @@ export default {
     }
   },
   computed: {
+    // 判断是否为单选组
     isGroup () {
       let parent = this.$parent
       while (parent) {
+        // 父组件的名称不等于ZzrRadioGroup,继续往上
         if (parent.$options.componentName !== 'ZzrRadioGroup') {
           parent = parent.$parent
         } else {
+          // 如果为单选组,增设置为this._radioGroup,且停止
           this._radioGroup = parent
           return true
         }
@@ -91,15 +94,18 @@ export default {
       return false
     },
     model: {
+      // 监听是否为单选组,若是则为单选组绑定的值,否则为本身value值
       get () {
         return this.isGroup ? this._radioGroup.value : this.value
       },
       set (val) {
         if (this.isGroup) {
+          // 单选组 派发
           this.dispatch('ZzrRadioGroup', 'input', [val])
         } else {
           this.$emit('input', val)
         }
+        // 当model==label时,设置为checked为true
         this.$refs.radio && (this.$refs.radio.checked = this.model === this.label)
       }
     },
@@ -125,6 +131,7 @@ export default {
   methods: {
     handleChange () {
       this.$nextTick(() => {
+        // 给上级传递消息
         this.$emit('change', this.model)
         this.isGroup && this.dispatch('ZzrRadioGroup', 'handleChange', this.model)
       })

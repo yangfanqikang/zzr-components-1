@@ -94,7 +94,7 @@
             </zzr-radio-group>
           </div>
         </div>
-        <pre><code>{{content2}}</code></pre>
+        <pre><code>{{content5}}</code></pre>
       </div>
     </div>
 </template>
@@ -113,10 +113,10 @@
         radio2: '上海',
         radio3: '上海',
         radio4: '上海',
-        radio5: '上海',
-        radio6: '上海',
-        radio7: '上海',
-        radio8: '上海',
+        radio5: '1',
+        radio6: '1',
+        radio7: '1',
+        radio8: '1',
         content1: `
             <zzr-radio v-model="radio" label="1">备选项</zzr-radio>
           <zzr-radio v-model="radio" label="2">备选项</zzr-radio>
@@ -159,6 +159,23 @@
               <zzr-radio-button label="北京"></zzr-radio-button>
               <zzr-radio-button label="广州"></zzr-radio-button>
               <zzr-radio-button label="深圳"></zzr-radio-button>
+            </zzr-radio-group>
+      `.replace(/^ {8}/gm, '').trim(),
+        content5: `
+                <zzr-radio v-model="radio5" label="1" border>备选项1</zzr-radio>
+            <zzr-radio v-model="radio5" label="2" border>备选项2</zzr-radio>
+
+            <zzr-radio v-model="radio6" label="1" border size="medium">备选项1</zzr-radio>
+            <zzr-radio v-model="radio6" label="2" border size="medium">备选项2</zzr-radio>
+
+            <zzr-radio-group v-model="radio7" size="small">
+              <zzr-radio label="1" border>备选项1</zzr-radio>
+              <zzr-radio label="2" border disabled>备选项2</zzr-radio>
+            </zzr-radio-group>
+
+            <zzr-radio-group v-model="radio8" size="mini" disabled>
+              <zzr-radio label="1" border>备选项1</zzr-radio>
+              <zzr-radio label="2" border>备选项2</zzr-radio>
             </zzr-radio-group>
       `.replace(/^ {8}/gm, '').trim(),
       }

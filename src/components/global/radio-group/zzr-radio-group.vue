@@ -51,6 +51,7 @@ export default {
   },
 
   created () {
+    // 这里监听子组件的handleChange,触发给父集如form表单
     this.$on('handleChange', value => {
       this.$emit('change', value)
     })
@@ -103,6 +104,7 @@ export default {
   },
   watch: {
     value (value) {
+      // 这里的监听与form相关
       this.dispatch('ZzrFormItem', 'el.form.change', [this.value])
     }
   }
