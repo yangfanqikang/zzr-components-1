@@ -67,23 +67,29 @@
 
 /* BEM
  -------------------------- */
+// 设置 命名空间和组件类型的样式: 前缀-组件
 @mixin b($block) {
+  // 命名空间namespace为zzr $B为全局变量,是前缀加组件的命名,传入的block为组件类型
   $B: $namespace+'-'+$block !global;
-
+  // 差值表达式 .#{$B} 插入@content的内容,意思就是 .zzr-组件下插入样式
   .#{$B} {
     @content;
   }
 }
 
+// 设置:父集__element样式
 @mixin e($element) {
+  // $E全局
   $E: $element !global;
   $selector: &;
   $currentSelector: "";
+  // 选择器设置:前缀+组件+'__标签'
   @each $unit in $element {
     $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
   }
-
+  // // 是否包含 -- 或 is- 或 :
   @if hitAllSpecialNestRule($selector) {
+    // 如果包含 父集选择器下当前选择器继续插入样式
     @at-root {
       #{$selector} {
         #{$currentSelector} {
@@ -92,6 +98,7 @@
       }
     }
   } @else {
+    // 如果不包含 则 直接在当前选择器下插入 样式
     @at-root {
       #{$currentSelector} {
         @content;
@@ -99,10 +106,14 @@
     }
   }
 }
-
+// $modifier传入的是数组?意思是父集选择器加上--medium,--small,--mini的样式?
+// 设置附加--大小的样式
 @mixin m($modifier) {
+  // 父集选择器
   $selector: &;
+  // 空
   $currentSelector: "";
+  // 设置当前选择器 加上"--",
   @each $unit in $modifier {
     $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","};
   }
@@ -161,9 +172,11 @@
     }
   }
 }
-
+// 设置: 状态前缀的样式
 @mixin when($state) {
+  // @at-root指令可以使一个或多个规则被限定输出在文档的根层级上，而不是被嵌套在其父选择器下。
   @at-root {
+    // 父集选择器下该状态的样式,@at-root只提升一个层级
     &.#{$state-prefix + $state} {
       @content;
     }
@@ -181,10 +194,9 @@
     @content
   }
 }
-
+//设置伪类的样式,这个混合直接用就好了
 @mixin pseudo($pseudo) {
   @at-root #{&}#{':#{$pseudo}'} {
     @content
   }
 }
-

@@ -2,22 +2,29 @@
 
 /* BEM support Func
  -------------------------- */
+/**
+选择器转字符串截取第二至倒数第二
+ */
 @function selectorToString($selector) {
-  $selector: inspect($selector);
-  $selector: str-slice($selector, 2, -2);
+  $selector: inspect($selector); // inspect 转字符串
+  $selector: str-slice($selector, 2, -2); // str-slice(string,start-at, [$end-at])
   @return $selector;
 }
-
+/**
+判断是否包含 修饰符 "--"
+ */
 @function containsModifier($selector) {
   $selector: selectorToString($selector);
-
+  // 判断 "--"在第几位,或者为无
   @if str-index($selector, $modifier-separator) {
     @return true;
   } @else {
     @return false;
   }
 }
-
+/**
+  判断是否包含状态前缀"is-"
+ */
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
@@ -27,7 +34,9 @@
     @return false
   }
 }
-
+/**
+判断是否包含伪类修饰符":"
+ */
 @function containPseudoClass($selector) {
   $selector: selectorToString($selector);
 
@@ -37,7 +46,7 @@
     @return false
   }
 }
-
+// 是否包含 -- 或 is- 或 :
 @function hitAllSpecialNestRule($selector) {
 
   @return containsModifier($selector) or containWhenFlag($selector) or containPseudoClass($selector);

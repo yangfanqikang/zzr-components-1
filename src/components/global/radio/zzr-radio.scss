@@ -3,6 +3,7 @@
 @import '../../../styles/el/mixins/button';
 @import "../../../styles/el/common/var";
 
+// 混合b获取的是命名空间后面的组件类型的样式
 @include b(radio) {
   color: $--radio-font-color;
   font-weight: $--radio-font-weight;

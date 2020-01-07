@@ -63,6 +63,7 @@ export default {
   componentName: 'ZzrRadio',
 
   props: {
+    // 接收六个属性
     value: {},
     label: {},
     disabled: Boolean,
@@ -134,7 +135,4 @@ export default {
 
 <style lang="scss" scoped>
   @import "zzr-radio";
-    .zzr-radio {
-
-    }
 </style>
