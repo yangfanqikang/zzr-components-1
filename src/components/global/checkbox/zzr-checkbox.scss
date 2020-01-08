@@ -4,6 +4,7 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  margin-right: 10px;
   .zzr-checkbox__input{
     position: relative;
     display: inline-flex;
@@ -38,6 +39,16 @@
           transform: rotate(45deg) scale(1);
         }
       }
+      &.is-disabled{
+        background-color: $--checkbox-disabled-input-fill;
+        border-color: $--checkbox-disabled-border-color;
+        cursor: not-allowed;
+        &.is-checked{
+          &:after{
+            border-color: lighten($primary-color,30%);
+          }
+        }
+      }
       &:hover{
         border-color: $primary-color;
       }
@@ -54,6 +65,12 @@
     &.is-checked{
       & + .zzr-checkbox__label{
         color: $primary-color;
+      }
+    }
+    &.is-disabled{
+      & + .zzr-checkbox__label{
+        color: $--disabled-color-base;
+        cursor: not-allowed;
       }
     }
   }

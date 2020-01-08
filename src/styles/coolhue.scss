@@ -274,3 +274,12 @@ $stepperbar-color: #333 !default;
   margin: 0;
   padding: 0;
 }
+// ****** el ****
+/// color|1|Border Color|3
+$--border-color-base: #DCDFE6 !default;
+/// color|1|Font Color|2
+$--color-text-placeholder: #C0C4CC !default;
+$--disabled-color-base: $--color-text-placeholder !default;
+// checkbox
+$--checkbox-disabled-input-fill: lighten($primary-color,47%) !default;
+$--checkbox-disabled-border-color: $--border-color-base !default;
