@@ -9,8 +9,16 @@ import Emitter from '../../../mixins/emitter'
 export default {
   name: 'zzr-checkbox-group',
   componentName: 'ZzrCheckboxGroup',
-  props: ['value'],
-  mixins: [Emitter],
+  props: {
+    value: {},
+    disabled: Boolean,
+    min: Number,
+    max: Number,
+    size: String,
+    fill: String,
+    textColor: String
+  },
+  mixins: [Emitter]
   // watch: {
   //   value: {
   //     handler () {

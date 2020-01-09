@@ -4,7 +4,7 @@
         <h4>基础用法</h4>
         <div>
           <zzr-checkbox v-model="checkboxDemo1" label="1">复选框1</zzr-checkbox>
-          <zzr-checkbox v-model="checkboxDemo1" label="2">复选框2</zzr-checkbox>
+          <zzr-checkbox v-model="checkboxDemo11" label="2">复选框2</zzr-checkbox>
         </div>
         <pre><code>{{content1}}</code></pre>
       </div>
@@ -13,7 +13,7 @@
         <p>多选框不可用状态。</p>
         <div>
           <zzr-checkbox v-model="checkboxDemo2" label="1" disabled>复选框1</zzr-checkbox>
-          <zzr-checkbox v-model="checkboxDemo2" label="2" disabled checked>复选框2</zzr-checkbox>
+          <zzr-checkbox v-model="checkboxDemo22" label="2" disabled checked>复选框2</zzr-checkbox>
         </div>
         <pre><code>{{content2}}</code></pre>
       </div>
@@ -25,7 +25,7 @@
           <zzr-checkbox label="复选框 B"></zzr-checkbox>
           <zzr-checkbox label="复选框 C"></zzr-checkbox>
           <zzr-checkbox label="禁用" disabled></zzr-checkbox>
-          <zzr-checkbox label="选中且禁用" disabled checked></zzr-checkbox>
+          <zzr-checkbox label="选中且禁用" disabled></zzr-checkbox>
         </zzr-checkbox-group>
         <pre><code>{{content3}}</code></pre>
       </div>
@@ -57,15 +57,17 @@
         checkedCities: ['上海', '北京'],
         cities: cityOptions,
         checkboxDemo1: '1',
-        checkboxDemo2: '2',
+        checkboxDemo11: false,
+        checkboxDemo2: false,
+        checkboxDemo22: '2',
         checkList: ['选中且禁用','复选框 A'],
         content1: `
             <zzr-checkbox v-model="checkboxDemo1" label="1">复选框1</zzr-checkbox>
-          <zzr-checkbox v-model="checkboxDemo1" label="2">复选框2</zzr-checkbox>
+        <zzr-checkbox v-model="checkboxDemo1" label="2">复选框2</zzr-checkbox>
       `.replace(/^ {8}/gm, '').trim(),
         content2: `
             <zzr-checkbox v-model="checkboxDemo2" label="1">复选框1</zzr-checkbox>
-          <zzr-checkbox v-model="checkboxDemo2" label="2">复选框2</zzr-checkbox>
+        <zzr-checkbox v-model="checkboxDemo2" label="2">复选框2</zzr-checkbox>
       `.replace(/^ {8}/gm, '').trim(),
         content3: `
             <zzr-checkbox-group v-model="checkList">
@@ -78,24 +80,20 @@
       `.replace(/^ {8}/gm, '').trim(),
         content4: `
             <zzr-checkbox v-model="checkAll" @change="handleCheckAllChange"></zzr-checkbox>
-          <zzr-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <zzr-checkbox v-for="city in cities" :label="city" :key="city"></zzr-checkbox>
-          </zzr-checkbox-group>
+        <zzr-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          <zzr-checkbox v-for="city in cities" :label="city" :key="city"></zzr-checkbox>
+        </zzr-checkbox-group>
       `.replace(/^ {8}/gm, '').trim(),
       }
     },
     methods: {
       handleCheckAllChange (val) {
         console.log(val)
-        if (val){
-          console.log(this.cities)
-          this.checkedCities = this.cities
-        } else {
-          this.checkedCities = []
-        }
+        this.checkedCities = val ? cityOptions : []
       },
-      handleCheckedCitiesChange () {
-
+      handleCheckedCitiesChange (value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
       }
     },
   }
