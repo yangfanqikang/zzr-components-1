@@ -55,12 +55,13 @@
         <h4>按钮样式</h4>
         <p>按钮样式的多选组合。</p>
         <zzr-checkbox-button :items="items" v-model="selectedItem"></zzr-checkbox-button>
-        <zzr-checkbox-button :items="items2"  v-model="selectedItem2"></zzr-checkbox-button>
+        <pre><code>{{content6}}</code></pre>
       </div>
       <div class="checkbox-demos6">
         <h4>边框</h4>
         <zzr-checkbox bordered>备选项1</zzr-checkbox>
         <zzr-checkbox bordered>备选项2</zzr-checkbox>
+        <pre><code>{{content7}}</code></pre>
       </div>
     </div>
 </template>
@@ -116,6 +117,13 @@
             <zzr-checkbox-group v-model="checkedCities2" :min="1" :max="2">
           <zzr-checkbox v-for="city in cities2" :label="city" :key="city">{{city}}</zzr-checkbox>
         </zzr-checkbox-group>
+      `.replace(/^ {8}/gm, '').trim(),
+        content6: `
+             <zzr-checkbox-button :items="items" v-model="selectedItem"></zzr-checkbox-button>
+      `.replace(/^ {8}/gm, '').trim(),
+        content7: `
+            <zzr-checkbox bordered>备选项1</zzr-checkbox>
+        <zzr-checkbox bordered>备选项2</zzr-checkbox>
       `.replace(/^ {8}/gm, '').trim(),
       }
     },
