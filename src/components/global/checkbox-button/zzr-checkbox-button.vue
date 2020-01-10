@@ -9,8 +9,13 @@ import { intersection } from 'lodash'
 export default {
   name: 'zzr-checkbox-button',
   props: {
-    items: {},
-    value: {}
+    items: {
+      type: Array,
+      require: true
+    },
+    value: {
+      type: Array
+    }
   },
   data () {
     return {
