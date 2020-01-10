@@ -100,6 +100,11 @@ export default {
         ? this._checkboxGroup.disabled || this.disabled || (this.elForm || {}).disabled || this.isLimitDisabled
         : this.disabled || (this.elForm || {}).disabled
     },
+    isLimitDisabled () {
+      const { max, min } = this._checkboxGroup
+      // 如果max或者min 存在,则判断是否超过限制
+      return !!(max || min) && (this.model.length >= max && !this.isChecked) || (this.model.length <= min && this.isChecked)
+    },
     isChecked () {
       // if ({}.toString.call(this.model) === '[object Boolean]') {
       //   return this.model

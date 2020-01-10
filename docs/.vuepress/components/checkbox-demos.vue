@@ -41,21 +41,44 @@
         </div>
         <pre><code>{{content4}}</code></pre>
       </div>
+      <div class="checkbox-demo3">
+        <h4>可选项目数量的限制</h4>
+        <p>使用 min 和 max 属性能够限制可以被勾选的项目的数量。</p>
+        <div>
+          <zzr-checkbox-group v-model="checkedCities2" :min="1" :max="2">
+            <zzr-checkbox v-for="city in cities2" :label="city" :key="city">{{city}}</zzr-checkbox>
+          </zzr-checkbox-group>
+        </div>
+        <pre><code>{{content5}}</code></pre>
+      </div>
+      <div class="checkbox-demos6">
+        <h4>按钮样式</h4>
+        <p>按钮样式的多选组合。</p>
+        <zzr-checkbox-button :items="items" v-model="selectedItem"></zzr-checkbox-button>
+        <zzr-checkbox-button :items="items2"  v-model="selectedItem2"></zzr-checkbox-button>
+      </div>
     </div>
 </template>
 
 <script>
   import ZzrCheckbox from '../../../src/components/global/checkbox/zzr-checkbox'
   import ZzrCheckboxGroup from '../../../src/components/global/check-group/zzr-checkbox-group'
+  import ZzrCheckboxButton from '../../../src/components/global/checkbox-button/zzr-checkbox-button'
   const cityOptions = ['上海', '北京', '广州', '深圳']
   export default {
     name: 'checkbox-demos',
-    components: { ZzrCheckboxGroup, ZzrCheckbox },
+    components: { ZzrCheckboxButton, ZzrCheckboxGroup, ZzrCheckbox },
     data () {
       return {
+        selectedItem: ['上海', '广州', '宁夏'],
+        items: cityOptions,
+        selectedItem2: ['上海', '宁夏'],
+        items2: cityOptions,
         checkAll: false,
         checkedCities: ['上海', '北京'],
+        checkedCities2: ['上海', '北京'],
         cities: cityOptions,
+        cities2: cityOptions,
         checkboxDemo1: '1',
         checkboxDemo11: false,
         checkboxDemo2: false,
@@ -82,6 +105,11 @@
             <zzr-checkbox v-model="checkAll" @change="handleCheckAllChange"></zzr-checkbox>
         <zzr-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
           <zzr-checkbox v-for="city in cities" :label="city" :key="city"></zzr-checkbox>
+        </zzr-checkbox-group>
+      `.replace(/^ {8}/gm, '').trim(),
+        content5: `
+            <zzr-checkbox-group v-model="checkedCities2" :min="1" :max="2">
+          <zzr-checkbox v-for="city in cities2" :label="city" :key="city">{{city}}</zzr-checkbox>
         </zzr-checkbox-group>
       `.replace(/^ {8}/gm, '').trim(),
       }
