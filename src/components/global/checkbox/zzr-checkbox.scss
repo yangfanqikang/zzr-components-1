@@ -74,6 +74,14 @@
       }
     }
   }
+  &.is-bordered{
+    padding: 0.7em 1em;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    &.is-checked{
+      border-color: $primary-color;
+    }
+  }
   .zzr-checkbox__label{
     padding-left: 10px;
     line-height: 19px;

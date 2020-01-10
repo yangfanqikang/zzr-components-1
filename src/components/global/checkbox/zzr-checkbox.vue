@@ -1,9 +1,9 @@
 <template>
-    <label class="zzr-checkbox">
+    <label class="zzr-checkbox" :class="{'is-bordered': bordered,'is-checked': isChecked}">
       <span class="zzr-checkbox__input" :class="[
         {
           'is-checked': isChecked,
-         'is-disabled': isDisabled
+         'is-disabled': isDisabled,
          }
       ]">
         <span class="zzr-checkbox__inner" :class="[
@@ -52,6 +52,7 @@ export default {
     name: {},
     checked: Boolean,
     disabled: Boolean,
+    bordered: Boolean,
     trueLabel: [String, Number],
     falseLabel: [String, Number]
   },

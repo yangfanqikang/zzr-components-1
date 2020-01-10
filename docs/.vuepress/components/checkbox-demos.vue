@@ -57,6 +57,11 @@
         <zzr-checkbox-button :items="items" v-model="selectedItem"></zzr-checkbox-button>
         <zzr-checkbox-button :items="items2"  v-model="selectedItem2"></zzr-checkbox-button>
       </div>
+      <div class="checkbox-demos6">
+        <h4>边框</h4>
+        <zzr-checkbox bordered>备选项1</zzr-checkbox>
+        <zzr-checkbox bordered>备选项2</zzr-checkbox>
+      </div>
     </div>
 </template>
 
