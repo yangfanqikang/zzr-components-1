@@ -11,5 +11,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.text-demos{
+  text-align: justify;
+}
 </style>
