@@ -1,6 +1,6 @@
 let hiddenTextarea;
 
-//定义 隐藏样式
+// 定义 隐藏样式
 const HIDDEN_STYLE = `
   height:0 !important;
   visibility:hidden !important;
@@ -70,10 +70,11 @@ export default function calcTextareaHeight(
   maxRows = null
 ) {
   if (!hiddenTextarea) {
+    // 如果隐藏属性不存在的话,创建隐藏文本域,body后添加
     hiddenTextarea = document.createElement('textarea');
     document.body.appendChild(hiddenTextarea);
   }
-
+  // 计算盒模型
   let {
     paddingSize,
     borderSize,
@@ -81,6 +82,7 @@ export default function calcTextareaHeight(
     contextStyle
   } = calculateNodeStyling(targetElement);
 
+  // 设置样式
   hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`);
   hiddenTextarea.value = targetElement.value || targetElement.placeholder || '';
 

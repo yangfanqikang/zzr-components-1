@@ -1,5 +1,5 @@
 /**
- * 
+ * 合并键值对
  * @param target
  * @returns {*}
  */

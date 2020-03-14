@@ -5,6 +5,7 @@
   position: relative;
   display: inline-block;
   font-size: $--font-size-base;
+  min-width: 180px;
   width: 100%;
   @include scroll-bar;
 
@@ -63,6 +64,20 @@
     //pointer-events: all;
   }
 
+  @include e(prefix){
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $--input-icon-color;
+    transition: all .3s;
+  }
+  @include m(prefix) {
+    .zzr-input__inner {
+      padding-left: 30px;
+    }
+  }
+
   @include e(icon){
     height: 100%;
     width: 25px;
@@ -88,6 +103,34 @@
     }
     &::placeholder{
       color: $--input-disabled-placeholder-color;
+    }
+  }
+}
+
+@include b(textarea){
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+  font-size: $--font-size-base;
+
+  @include e(inner){
+    display: block;
+    resize: vertical;
+    background-color: $--input-background-color;
+    border: $--input-border;
+    border-radius: $--input-border-radius;
+    transition: $--border-transition-base;
+    width: 100%;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-size: inherit;
+    color: $--input-font-color;
+    background-image: none;
+
+    &:focus {
+      outline: none;
+      border-color: $--input-focus-border;
     }
   }
 }
