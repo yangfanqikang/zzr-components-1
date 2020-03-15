@@ -49,12 +49,12 @@ export default {
     this.referenceList.setAttribute('role', 'listbox')
     this.referenceList.setAttribute('id', this.id)
   },
-  // updated() {
-  //   this.$nextTick(_ => {
-  //     console.log('updated==============')
-  //     this.popperJS && this.updatePopper();
-  //   });
-  // },
+  updated() {
+    this.$nextTick(_ => {
+      console.log('updated==============')
+      this.popperJS && this.updatePopper();
+    });
+  },
   created () {
     this.$on('visible', (val, inputWidth) => {
       console.log(val, inputWidth)

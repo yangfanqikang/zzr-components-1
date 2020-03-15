@@ -70,7 +70,7 @@ export default {
           (this._checkboxGroup.min !== undefined && val.length < this._checkboxGroup.min && (this.isLimitExceeded = true));
 
           (this._checkboxGroup.max !== undefined && val.length > this._checkboxGroup.max && (this.isLimitExceeded = true))
-          // 如果没有超出仙子,那么给复选组派发 val值
+          // 如果没有超出限制,那么给复选组派发 val值
           this.isLimitExceeded === false && this.dispatch('ZzrCheckboxGroup', 'input', [val])
         } else {
           // 如果不是复选组, 那么触发input,传值val,设置自身model 为 val,val 为true或者false

@@ -1,35 +1,39 @@
 <template>
-  <div :class="[
+    <div :class="[
       type === 'textarea' ? 'zzr-textarea' : 'zzr-input',
       inputSize ? 'zzr-input--' + inputSize : '',
       {
         'is-disabled': inputDisabled,
+        'is-exceed': inputExceed,
+        'zzr-input-group': $slots.prepend || $slots.append,
+        'zzr-input-group--append': $slots.append,
+        'zzr-input-group--prepend': $slots.prepend,
         'zzr-input--prefix': $slots.prefix || prefixIcon,
         'zzr-input--suffix': $slots.suffix || suffixIcon || clearable
       }
     ]" @mouseenter="hovering = true" @mouseleave="hovering = false">
-    <template v-if="type !== 'textarea'">
-      <!--        前置-->
-      <div class="zzr-input-group__prepend" v-if="$slots.prepend">
-        <slot name="prepend"></slot>
-      </div>
-      <input type="text"
-             v-if="type !== 'textarea'"
-             class="zzr-input__inner"
-             ref="input"
-             v-bind="$attrs"
-             @input="handleInput"
-             @focus="handleFocus"
-             @blur="handleBlur"
-             @change="handleChange"
-      >
-      <!--        前置内容-->
-      <span class="zzr-input__prefix" v-if="this.$slots.prefix || prefixIcon">
+        <template v-if="type !== 'textarea'">
+            <!--        前置-->
+            <div class="zzr-input-group__prepend" v-if="$slots.prepend">
+                <slot name="prepend"></slot>
+            </div>
+            <input type="text"
+                   v-if="type !== 'textarea'"
+                   class="zzr-input__inner"
+                   ref="input"
+                   v-bind="$attrs"
+                   @input="handleInput"
+                   @focus="handleFocus"
+                   @blur="handleBlur"
+                   @change="handleChange"
+            >
+            <!--        前置内容-->
+            <span class="zzr-input__prefix" v-if="this.$slots.prefix || prefixIcon">
           <slot name="prefix"></slot>
           <zzr-icon :name="prefixIcon" class="zzr-icon__icon" v-if="prefixIcon"></zzr-icon>
         </span>
-      <!--        后置内容-->
-      <span class="zzr-input__suffix" v-if="getSuffixVisible()">
+            <!--        后置内容-->
+            <span class="zzr-input__suffix" v-if="getSuffixVisible()">
           <span class="zzr-input__suffix-inner">
             <template v-if="!showClear">
               <slot name="suffix"></slot>
@@ -38,19 +42,24 @@
             <span v-if="showClear" @click="clear">
               <zzr-icon name="roundclose" class="zzr-icon__icon zzr-input__clear"></zzr-icon>
             </span>
-
+            <span v-if="isWordLimitVisible" class="zzr-input__count">
+              <span class="zzr-input__count-inner">
+                {{ textLength }}/{{ upperLimit }}
+              </span>
+            </span>
           </span>
         </span>
-      <!--        后置元素-->
-      <div class="zzr-input-group__append" v-if="$slots.append">
-        <slot name="append"></slot>
-      </div>
-    </template>
-    <textarea v-else ref="textarea" class="zzr-textarea__inner" :style="textareaStyle" v-bind="$attrs"
-              @change="handleChange"
-              @input="handleInput"
-    ></textarea>
-  </div>
+            <!--        后置元素-->
+            <div class="zzr-input-group__append" v-if="$slots.append">
+                <slot name="append"></slot>
+            </div>
+        </template>
+        <textarea v-else ref="textarea" class="zzr-textarea__inner" :style="textareaStyle" v-bind="$attrs"
+                  @change="handleChange"
+                  @input="handleInput"
+        ></textarea>
+        <span v-if="isWordLimitVisible && type === 'textarea'" class="zzr-input__count">{{ textLength }}/{{ upperLimit }}</span>
+    </div>
 </template>
 
 <script>
@@ -72,12 +81,16 @@ export default {
     disabled: Boolean,
     clearable: {
       type: Boolean,
-      default: true
+      default: false
     },
     suffixIcon: String,
     prefixIcon: String,
     autosize: {
       type: [Boolean, Object],
+      default: false
+    },
+    showWordLimit: {
+      type: Boolean,
       default: false
     }
   },
@@ -106,6 +119,27 @@ export default {
     },
     textareaStyle () {
       return merge({}, this.textareaCalcStyle, { resize: this.resize })
+    },
+    isWordLimitVisible () {
+      return this.showWordLimit &&
+          this.$attrs.maxlength &&
+          (this.type === 'text' || this.type === 'textarea') &&
+          !this.inputDisabled
+    },
+    upperLimit () {
+      return this.$attrs.maxlength
+    },
+    textLength () {
+      if (typeof this.value === 'number') {
+        return String(this.value).length
+      }
+
+      return (this.value || '').length
+    },
+    inputExceed () {
+      // show exceed style if length of initial value greater then maxlength
+      return this.isWordLimitVisible &&
+          (this.textLength > this.upperLimit)
     }
   },
   watch: {
@@ -129,7 +163,7 @@ export default {
   methods: {
     handleFocus (event) {
       this.focused = true
-      this.$emit('focus', event);
+      this.$emit('focus', event)
     },
     handleBlur (event) {
       this.focused = false
@@ -147,11 +181,11 @@ export default {
     clear () {
       // this.$emit('input', '')
       console.log(111111111111)
-      this.$refs.input.value = ''
-      // this.$emit('change', '')
+      // this.$refs.input.value = ''
+      this.$emit('input', '')
     },
     getSuffixVisible () {
-      return this.$slots.suffix || this.suffixIcon || this.showClear
+      return this.$slots.suffix || this.suffixIcon || this.showClear || this.isWordLimitVisible
     },
     getInput () {
       return this.$refs.input || this.$refs.textarea
@@ -178,7 +212,7 @@ export default {
       const minRows = autosize.minRows
       const maxRows = autosize.maxRows
       this.textareaCalcStyle = calcTextareaHeight(this.$refs.textarea, minRows, maxRows)
-    },
+    }
     // handleCompositionStart () {
     //   console.log('111111111111111111111')
     //   this.isComposing = true
@@ -199,5 +233,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "zzr-input";
+    @import "zzr-input";
 </style>

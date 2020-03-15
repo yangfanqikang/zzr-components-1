@@ -19,6 +19,21 @@
     }
   }
 
+  & .zzr-input__count {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    color: $--color-info;
+    font-size: 12px;
+
+    .zzr-input__count-inner {
+      background: $--color-white;
+      line-height: initial;
+      display: inline-block;
+      padding: 0 5px;
+    }
+  }
+
   @include e(inner){
     -webkit-appearance: none;
     background-color: $--input-background-color;
@@ -114,6 +129,15 @@
   vertical-align: bottom;
   font-size: $--font-size-base;
 
+  & .zzr-input__count {
+    color: $--color-info;
+    background: $--color-white;
+    position: absolute;
+    font-size: 12px;
+    bottom: 5px;
+    right: 10px;
+  }
+
   @include e(inner){
     display: block;
     resize: vertical;
@@ -133,4 +157,87 @@
       border-color: $--input-focus-border;
     }
   }
+}
+
+@include b(input-group) {
+  line-height: normal;
+  display: inline-table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing:0;
+
+  > .zzr-input__inner {
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  @include e((append, prepend)) {
+    background-color: $--background-color-base;
+    color: $--color-info;
+    vertical-align: middle;
+    display: table-cell;
+    position: relative;
+    border: $--border-base;
+    border-radius: $--input-border-radius;
+    padding: 0 20px;
+    width: 1px;
+    white-space: nowrap;
+
+    &:focus {
+      outline: none;
+    }
+
+    .zzr-select,
+    .zzr-button {
+      display: inline-block;
+      margin: -10px -20px;
+    }
+
+    button.zzr-button,
+    div.zzr-select .zzr-input__inner,
+    div.zzr-select:hover .zzr-input__inner {
+      border-color: transparent;
+      background-color: transparent;
+      color: inherit;
+      border-top: 0;
+      border-bottom: 0;
+    }
+
+    .zzr-button,
+    .zzr-input {
+      font-size: inherit;
+    }
+  }
+
+  @include e(prepend) {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  @include e(append) {
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  @include m(prepend) {
+    .zzr-input__inner {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .zzr-select .zzr-input.is-focus .zzr-input__inner {
+      border-color: transparent;
+    }
+  }
+
+  @include m(append) {
+    .zzr-input__inner {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .zzr-select .zzr-input.is-focus .zzr-input__inner {
+      border-color: transparent;
+    }
+  }
+
 }
