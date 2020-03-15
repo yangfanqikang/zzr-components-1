@@ -38,6 +38,7 @@ module.exports = {
               '/components/form/radio2',
               '/components/form/checkbox',
               '/components/form/input',
+              '/components/form/InputNumber',
               '/components/form/select',
               '/components/form/switch',
               '/components/form/cascader',
