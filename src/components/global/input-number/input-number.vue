@@ -1,20 +1,37 @@
 <template>
-  <div class="zzr-input-number">
-    <span class="zzr-input-number__decrease" v-repeat-click="decrease">-</span>
-    <zzr-input ref="input" :value="displayValue"></zzr-input>
-    <span class="zzr-input-number__increase"  v-repeat-click="increase">+</span>
+  <div
+    class="zzr-input-number"
+    :class="[
+         { 'is-disabled': inputNumberDisabled },
+    ]"
+  >
+    <span class="zzr-input-number__decrease" v-repeat-click="decrease" :class="{'is-disabled': minDisabled}">-</span>
+    <zzr-input
+      ref="input"
+      :value="displayValue"
+      :max="max"
+      :min="min"
+      :disabled="inputNumberDisabled"
+      @blur="handleBlur"
+      @focus="handleFocus"
+      @input="handleInput"
+      @change="handleInputChange"
+    ></zzr-input>
+    <span class="zzr-input-number__increase" v-repeat-click="increase" :class="{'is-disabled': maxDisabled}">+</span>
   </div>
 </template>
 
 <script>
 import ZzrInput from '../input/zzr-input'
 import RepeatClick from '../../../directives/repeat-click'
+
 export default {
   name: 'input-number',
   components: { ZzrInput },
   directives: { RepeatClick },
   props: {
     value: {},
+    // 步进默认为1
     step: {
       type: Number,
       default: 1
@@ -36,7 +53,8 @@ export default {
       validator (val) {
         return val >= 0 && val === parseInt(val, 10)
       }
-    }
+    },
+    disabled: Boolean
   },
   data () {
     return {
@@ -45,6 +63,15 @@ export default {
     }
   },
   computed: {
+    minDisabled () {
+      return this._decrease(this.value, this.step) < this.min
+    },
+    maxDisabled () {
+      return this._increase(this.value, this.step) > this.max
+    },
+    inputNumberDisabled () {
+      return this.disabled || (this.elForm || {}).disabled
+    },
     numPrecision () {
       const { value, step, getPrecision, precision } = this
       // 获取步进的精度
@@ -69,9 +96,13 @@ export default {
       if (typeof currentValue === 'number') {
         if (this.stepStrictly) {
           //
+          const stepPrecision = this.getPrecision(this.step);
+          const precisionFactor = Math.pow(10, stepPrecision);
+          currentValue = Math.round(currentValue / this.step) * precisionFactor * this.step / precisionFactor;
         }
         if (this.precision !== undefined) {
           //
+          currentValue = currentValue.toFixed(this.precision);
         }
       }
       return currentValue
@@ -87,10 +118,14 @@ export default {
             return
           }
           if (this.stepStrictly) {
-          //
+            //
+            const stepPrecision = this.getPrecision(this.step);
+            const precisionFactor = Math.pow(10, stepPrecision);
+            newVal = Math.round(newVal / this.step) * precisionFactor * this.step / precisionFactor;
           }
           if (this.precision !== undefined) {
             //
+            newVal = this.toPrecision(newVal, this.precision);
           }
         }
         this.currentValue = newVal
@@ -153,6 +188,7 @@ export default {
       const newVal = this._decrease(value, this.step)
       this.setCurrentValue(newVal)
     },
+    // 去传值
     setCurrentValue (newVal) {
       // 获取oldVal
       const oldVal = this.currentValue
@@ -172,6 +208,22 @@ export default {
       this.$emit('change', newVal, oldVal)
       // 将最新值赋给当前
       this.currentValue = newVal
+    },
+    handleBlur (event) {
+      this.$emit('blur', event)
+    },
+    handleFocus (event) {
+      this.$emit('focus', event)
+    },
+    handleInput (value) {
+      this.userInput = value
+    },
+    handleInputChange (value) {
+      const newVal = value === '' ? undefined : Number(value)
+      if (!isNaN(newVal) || value === '') {
+        this.setCurrentValue(newVal)
+      }
+      this.userInput = null
     }
   }
 }

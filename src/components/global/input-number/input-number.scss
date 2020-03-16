@@ -32,6 +32,13 @@
 
     &:hover{
     color: $--color-primary;
+      &:not(.is-disabled) ~ .zzr-input .zzr-input__inner:not(.is-disabled) {
+        border-color: $--input-focus-border;
+      }
+    }
+    &.is-disabled {
+      color: $--disabled-color-base;
+      cursor: not-allowed;
     }
   }
 
@@ -44,6 +51,17 @@
     right: 1px;
     border-radius: 0 $--border-radius-base $--border-radius-base 0;
     border-left: $--border-base;
+  }
+  @include when(disabled) {
+    @include e((increase, decrease)) {
+      border-color: $--disabled-border-base;
+      color: $--disabled-border-base;
+
+      &:hover {
+        color: $--disabled-border-base;
+        cursor: not-allowed;
+      }
+    }
   }
 
 
