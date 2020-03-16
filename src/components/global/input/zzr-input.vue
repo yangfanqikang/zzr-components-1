@@ -167,6 +167,7 @@ export default {
     },
     handleBlur (event) {
       this.focused = false
+      this.$emit('blur', event)
     },
     handleInput (event) {
       if (this.isComposing) return
