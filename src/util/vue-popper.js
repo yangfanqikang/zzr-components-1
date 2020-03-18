@@ -67,7 +67,6 @@ export default {
       immediate: true,
       handler(val) {
         this.showPopper = val;
-        console.log(val)
         this.$emit('input', val);
       }
     },
@@ -82,7 +81,6 @@ export default {
 
   methods: {
     createPopper() {
-      console.log('>>>>>>>>>>>>>>methods')
       if (this.$isServer) return;
       this.currentPlacement = this.currentPlacement || this.placement;
       if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.currentPlacement)) {
@@ -125,7 +123,6 @@ export default {
     updatePopper() {
       const popperJS = this.popperJS;
       if (popperJS) {
-        console.log('>>>>>>>>>>>>>>popperJS.update()')
         popperJS.update();
         if (popperJS._popper) {
           popperJS._popper.style.zIndex = PopupManager.nextZIndex();

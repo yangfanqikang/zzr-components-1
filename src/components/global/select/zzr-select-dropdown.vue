@@ -15,6 +15,7 @@
 import Popper from '../../../util/vue-popper'
 export default {
   name: 'zzr-select-dropdown',
+  componentName: 'ZzrSelectDropdown',
   mixins: [Popper],
   props: {
     placement: {
@@ -48,22 +49,27 @@ export default {
       return this.$parent.popperClass
     }
   },
-  watch: {
-    '$parent.inputWidth' () {
-      this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px';
-    }
-  },
+  // watch: {
+  //   '$parent.inputWidth' () {
+  //     this.minWidth = this.$parent.$el.getBoundingClientRect().width + 'px'
+  //     console.log('/////////')
+  //   }
+  // },
   mounted () {
     this.referenceElm = this.$parent.$refs.reference.$el
     this.$parent.popperElm = this.popperElm = this.$el
     this.$on('updatePopper', () => {
       if (this.$parent.visible) this.updatePopper()
+      console.log('>>>>>>>>>>>>>>>>>>')
+      console.log(this.$parent.$refs.reference.$refs.input.offsetWidth)
+      this.minWidth = (this.$parent.$refs.reference.$refs.input.offsetWidth || this.$parent.$refs.input.offsetWidth) + 'px'
+      // console.log(this.minWidth)
     })
     this.$on('destroyPopper', this.destroyPopper)
   }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+@import "select-dropdown";
 </style>
