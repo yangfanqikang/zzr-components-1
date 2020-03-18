@@ -4,21 +4,28 @@
     :class="[selectSize ? 'zzr-select--' + selectSize : '']"
     @click.stop="toggleMenu"
     v-clickoutside="handleClose">
-    <div class="zzr-select__tags" ref="tags" v-if="multiple"  :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }">
+    <div class="zzr-select__tags" ref="tags" v-if="multiple"
+         :style="{ 'max-width': inputWidth - 32 + 'px', width: '100%' }">
       <!--        判断折叠标签、选中数量-->
       <span v-if="collapseTags && selected.length">
           <zzr-tag
             :closable="!selectDisabled"
+            :size="collapseTagSize"
             type="info"
             @close="deleteTag($event, selected[0])">
             <span class="zzr-select__tags-text">{{ selected[0].currentLabel }}</span>
           </zzr-tag>
-          <zzr-tag v-if="selected.length > 1" :closable="false" type="info">
+          <zzr-tag
+            v-if="selected.length > 1"
+            :size="collapseTagSize"
+            :closable="false"
+            type="info">
             <span class="zzr-select__tags-text">+ {{ selected.length - 1 }}</span>
           </zzr-tag>
         </span>
-      <transition-group>
-        <zzr-tag v-for="item in selected" :key="getValueKey(item)" :closable="!selectDisabled" @close="deleteTag($event, item)">
+      <transition-group @after-leave="resetInputHeight" v-if="!collapseTags">
+        <zzr-tag v-for="item in selected" :key="getValueKey(item)" :closable="!selectDisabled"
+                 @close="deleteTag($event, item)">
           <span class="zzr-select__tags-text">{{ item.currentLabel }}</span>
         </zzr-tag>
       </transition-group>
@@ -30,6 +37,7 @@
         @blur="softFocus = false"
         v-model="query"
         v-if="filterable"
+        @input="debouncedQueryChange"
         :style="{ 'flex-grow': '1', width: inputLength / (inputWidth - 32) + '%', 'max-width': inputWidth - 42 + 'px' }"
         ref="input">
 
@@ -41,6 +49,7 @@
       :class="{ 'is-focus': visible }"
       @focus="handleFocus"
       @blur="handleBlur"
+      @keyup.native="debouncedOnInputChange"
       @mouseenter.native="inputHovering = true"
       @mouseleave.native="inputHovering = false">
       <template slot="prefix" v-if="$slots.prefix">
@@ -65,19 +74,19 @@
           wrap-class="zzr-select-dropdown__wrap"
           view-class="zzr-select-dropdown__list"
           ref="scrollbar">
-            <zzr-option
-             :value="query"
-              created
-              v-if="showNewOption"
-            ></zzr-option>
+          <zzr-option
+            :value="query"
+            created
+            v-if="showNewOption"
+          ></zzr-option>
           <slot></slot>
         </zzr-scrollbar>
-<!--        当没有数据的时候如下展示-->
+        <!--        当没有数据的时候如下展示-->
         <template>
-<!--          <slot name="empty" v-if="$slots.empty"></slot>-->
-<!--          <p class="zzr-select-dropdown__empty" v-else>-->
-<!--            {{ emptyText }}-->
-<!--          </p>-->
+          <!--          <slot name="empty" v-if="$slots.empty"></slot>-->
+          <!--          <p class="zzr-select-dropdown__empty" v-else>-->
+          <!--            {{ emptyText }}-->
+          <!--          </p>-->
         </template>
       </zzr-select-menu>
     </transition>
@@ -93,9 +102,10 @@ import ZzrOption from './zzr-option'
 import ZzrScrollbar from '../scrollbar/index'
 import Focus from '../../../mixins/focus'
 import Emitter from '../../../mixins/emitter'
-import { getValueByPath, valueEquals, isIE, isEdge } from '../../../util/util'
+import { getValueByPath, valueEquals } from '../../../util/util'
 import scrollIntoView from '../../../util/scroll-into-view'
 import Clickoutside from '../../../util/clickoutside'
+import { debounce } from '../../../util/throttle-debounce/index.cjs'
 export default {
   name: 'zzr-select',
   components: { ZzrOption, ZzrIcon, ZzrInput, ZzrTag, ZzrSelectMenu, ZzrScrollbar },
@@ -128,7 +138,13 @@ export default {
     valueKey: {
       type: String,
       default: 'value'
-    }
+    },
+    // 可过滤
+    filterable: Boolean,
+    reserveKeyword: Boolean,
+    remoteMethod: Function,
+    filterMethod: Function,
+    defaultFirstOption: Boolean
   },
   data () {
     return {
@@ -145,7 +161,6 @@ export default {
       remote: Boolean,
       softFocus: false,
       isSilentBlur: false,
-      filterable: Boolean,
       allowCreate: Boolean,
       createdLabel: null,
       createdSelected: false,
@@ -172,9 +187,9 @@ export default {
         ? Array.isArray(this.value) && this.value.length > 0
         : this.value !== undefined && this.value !== null && this.value !== ''
       let criteria = this.clearable &&
-        !this.selectDisabled &&
-        this.inputHovering &&
-        hasValue
+          !this.selectDisabled &&
+          this.inputHovering &&
+          hasValue
       return criteria
     },
     // 选项是否被禁用
@@ -183,6 +198,14 @@ export default {
     },
     selectSize () {
       return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size
+    },
+    collapseTagSize () {
+      return ['small', 'mini'].indexOf(this.selectSize) > -1
+        ? 'mini'
+        : 'small'
+    },
+    debounce () {
+      return this.remote ? 300 : 0
     }
   },
   watch: {
@@ -222,10 +245,10 @@ export default {
         }
         // 将query置空
         this.query = ''
-        // this.previousQuery = null;
+        this.previousQuery = null
         // 将已选中标签置空
         this.selectedLabel = ''
-        // this.inputLength = 20;
+        this.inputLength = 20
         // 将菜单设置不可见
         this.menuVisibleOnFocus = false
         // 重置悬停索引
@@ -233,8 +256,8 @@ export default {
         this.$nextTick(() => {
           // input存在并无value值且无选中值,则将占位字符重新设置
           if (this.$refs.input &&
-            this.$refs.input.value === '' &&
-            this.selected.length === 0) {
+              this.$refs.input.value === '' &&
+              this.selected.length === 0) {
             this.currentPlaceholder = this.cachedPlaceHolder
           }
         })
@@ -245,7 +268,7 @@ export default {
           if (this.selected) {
             // 如果可过滤和允许创建
             if (this.filterable && this.allowCreate &&
-              this.createdSelected && this.createdLabel) {
+                this.createdSelected && this.createdLabel) {
               this.selectedLabel = this.createdLabel
             } else {
               console.log(this.selected)
@@ -263,6 +286,22 @@ export default {
       }
       // 触发 visible-change事件
       // this.$emit('visible-change', val);
+    },
+    options () {
+      if (this.$isServer) return
+      this.$nextTick(() => {
+        this.broadcast('ZzrSelectDropdown', 'updatePopper')
+      })
+      if (this.multiple) {
+        this.resetInputHeight()
+      }
+      let inputs = this.$el.querySelectorAll('input')
+      if ([].indexOf.call(inputs, document.activeElement) === -1) {
+        this.setSelected()
+      }
+      if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
+        this.checkDefaultFirstOption()
+      }
     }
   },
   created () {
@@ -275,9 +314,21 @@ export default {
       // 如果不存在设置value的初始值为字符串
       this.$emit('input', '')
     }
+
+    // 松开键盘时调用
+    this.debouncedOnInputChange = debounce(this.debounce, () => {
+      console.log('this.debouncedOnInputChange')
+      this.onInputChange()
+    })
+
+    // 木有动
+    this.debouncedQueryChange = debounce(this.debounce, (e) => {
+      console.log('this.debouncedQueryChange')
+      this.handleQueryChange(e.target.value)
+    })
+
     this.$on('handleOptionClick', this.handleOptionSelect)
     this.$on('setSelected', this.setSelected)
-    console.log('>>>>>>>>>created', this.multiple)
   },
   mounted () {
     if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
@@ -339,22 +390,23 @@ export default {
       this.$emit('clear')
     },
     handleQueryChange (val) {
+      console.log(val)
       if (this.previousQuery === val || this.isOnComposition) return
       if (
         this.previousQuery === null &&
-        (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')
+          (typeof this.filterMethod === 'function' || typeof this.remoteMethod === 'function')
       ) {
         this.previousQuery = val
         return
       }
       this.previousQuery = val
       this.$nextTick(() => {
-        if (this.visible) this.broadcast('ElSelectDropdown', 'updatePopper')
+        console.log('**********')
+        if (this.visible) this.broadcast('ZzrSelectDropdown', 'updatePopper')
       })
       this.hoverIndex = -1
       if (this.multiple && this.filterable) {
         this.$nextTick(() => {
-          console.log('asdffffffffffffffffffffffffffffffff')
           const length = this.$refs.input.value.length * 15 + 20
           this.inputLength = this.collapseTags ? Math.min(50, length) : length
           this.managePlaceholder()
@@ -362,39 +414,69 @@ export default {
         })
       }
       if (this.remote && typeof this.remoteMethod === 'function') {
+        console.log('1111111this.remote && typeof this.remoteMethod === \'function\'')
         this.hoverIndex = -1
         this.remoteMethod(val)
       } else if (typeof this.filterMethod === 'function') {
+        console.log('222222222222')
         this.filterMethod(val)
-        this.broadcast('ElOptionGroup', 'queryChange')
+        this.broadcast('ZzrOptionGroup', 'queryChange')
       } else {
+        console.log('3333333333')
+
         this.filteredOptionsCount = this.optionsCount
-        this.broadcast('ElOption', 'queryChange', val)
-        this.broadcast('ElOptionGroup', 'queryChange')
+        this.broadcast('ZzrOption', 'queryChange', val)
+        this.broadcast('ZzrOptionGroup', 'queryChange')
       }
       if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
+        console.log('44444444')
+
         this.checkDefaultFirstOption()
+      }
+    },
+    checkDefaultFirstOption () {
+      this.hoverIndex = -1
+      // highlight the created option
+      let hasCreated = false
+      for (let i = this.options.length - 1; i >= 0; i--) {
+        if (this.options[i].created) {
+          hasCreated = true
+          this.hoverIndex = i
+          break
+        }
+      }
+      if (hasCreated) return
+      for (let i = 0; i !== this.options.length; ++i) {
+        const option = this.options[i]
+        if (this.query) {
+          // highlight first options that passes the filter
+          if (!option.disabled && !option.groupDisabled && option.visible) {
+            this.hoverIndex = i
+            break
+          }
+        } else {
+          // highlight currently selected option
+          if (option.itemSelected) {
+            this.hoverIndex = i
+            break
+          }
+        }
       }
     },
 
     // 传递选择事件
     handleOptionSelect (option, byClick) {
-      console.log('>>>>>>>>>>>handleOptionSelect', this.multiple)
       if (this.multiple) {
-        console.log('>>>>>>>>>>>>>>>>>', option.value)
         // 如果多选存在
         const value = (this.value || []).slice() // 数组
         const optionIndex = this.getValueIndex(value, option.value)
-        console.log('------------', this.multipleLimit)
         if (optionIndex > -1) {
           value.splice(optionIndex, 1)
         } else if (this.multipleLimit.default <= 0 || value.length < this.multipleLimit.default) {
           // 将选中值 push进value数组
           value.push(option.value)
-          console.log(value)
         }
         // 这里触发了value的监听器的改变
-        console.log('>>>>>>>>>>>>>>>>>', value)
         this.$emit('input', value)
         this.emitChange(value)
         if (option.created) {
@@ -594,6 +676,14 @@ export default {
         this.$emit('remove-tag', tag.value)
       }
       event.stopPropagation()
+    },
+
+    // 如果可以过滤 搜索条件也不等于当前值，那么调用
+    onInputChange () {
+      if (this.filterable && this.query !== this.selectedLabel) {
+        this.query = this.selectedLabel
+        this.handleQueryChange(this.query)
+      }
     }
 
   }
@@ -601,5 +691,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "select";
+  @import "select";
 </style>

@@ -21,6 +21,7 @@ import { getValueByPath } from '../../../util/util'
 
 export default {
   name: 'zzr-option',
+  componentName: 'ZzrOption',
   mixins: [Emitter],
   // 将父级实例select注入到option里
   inject: ['select'],
@@ -86,7 +87,7 @@ export default {
     this.select.optionsCount++
     this.select.filteredOptionsCount++
     // 监听查询改变
-    // this.$on('queryChange', this.queryChange)
+    this.$on('queryChange', this.queryChange)
     // 监听是否组级别禁用
     // this.$on('handleGroupDisabled', this.handleGroupDisabled)
   },
@@ -122,6 +123,7 @@ export default {
       }
     },
     queryChange () {
+      console.log('zzrOption>>>>>>>>>>>>>>>')
     },
     handleGroupDisabled () {
     }
