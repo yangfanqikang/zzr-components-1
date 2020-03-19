@@ -47,6 +47,7 @@
       :disabled="selectDisabled"
       v-model="selectedLabel"
       :class="{ 'is-focus': visible }"
+      :placeholder="currentPlaceholder"
       @focus="handleFocus"
       @blur="handleBlur"
       @keyup.native="debouncedOnInputChange"
@@ -73,8 +74,11 @@
           tag="ul"
           wrap-class="zzr-select-dropdown__wrap"
           view-class="zzr-select-dropdown__list"
-          ref="scrollbar">
+          ref="scrollbar"
+          :class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
+          v-show="options.length > 0">
           <zzr-option
+            class="zzr-123"
             :value="query"
             created
             v-if="showNewOption"
@@ -82,11 +86,11 @@
           <slot></slot>
         </zzr-scrollbar>
         <!--        当没有数据的时候如下展示-->
-        <template>
-          <!--          <slot name="empty" v-if="$slots.empty"></slot>-->
-          <!--          <p class="zzr-select-dropdown__empty" v-else>-->
-          <!--            {{ emptyText }}-->
-          <!--          </p>-->
+        <template v-if="emptyText && (!allowCreate || (allowCreate && options.length === 0 ))">
+          <slot name="empty" v-if="$slots.empty"></slot>
+          <p class="el-select-dropdown__empty" v-else>
+            {{ emptyText }}
+          </p>
         </template>
       </zzr-select-menu>
     </transition>
@@ -141,10 +145,14 @@ export default {
     },
     // 可过滤
     filterable: Boolean,
+    allowCreate: Boolean,
     reserveKeyword: Boolean,
     remoteMethod: Function,
     filterMethod: Function,
-    defaultFirstOption: Boolean
+    defaultFirstOption: Boolean,
+    loadingText: String,
+    noMatchText: String,
+    noDataText: String
   },
   data () {
     return {
@@ -161,7 +169,6 @@ export default {
       remote: Boolean,
       softFocus: false,
       isSilentBlur: false,
-      allowCreate: Boolean,
       createdLabel: null,
       createdSelected: false,
       cachedPlaceHolder: '',
@@ -172,11 +179,15 @@ export default {
       multipleLimit: {
         type: Number,
         default: 0
-      }
+      },
+      automaticDropdown: Boolean,
+      isOnComposition: false,
     }
   },
   computed: {
     showNewOption () {
+      // 输入怎么就直接添加到options里面去了呢
+      console.log(this.allowCreate)
       let hasExistingOption = this.options.filter(option => !option.created)
         .some(option => option.currentLabel === this.query)
       return this.filterable && this.allowCreate && this.query !== '' && !hasExistingOption
@@ -192,6 +203,20 @@ export default {
           hasValue
       return criteria
     },
+    emptyText () {
+      if (this.loading) {
+        return this.loadingText || ('el.select.loading')
+      } else {
+        if (this.remote && this.query === '' && this.options.length === 0) return false
+        if (this.filterable && this.query && this.options.length > 0 && this.filteredOptionsCount === 0) {
+          return this.noMatchText || ('el.select.noMatch')
+        }
+        if (this.options.length === 0) {
+          return this.noDataText || ('el.select.noData')
+        }
+      }
+      return null
+    },
     // 选项是否被禁用
     selectDisabled () {
       return this.disabled || (this.elForm || {}).disabled
@@ -205,13 +230,13 @@ export default {
         : 'small'
     },
     debounce () {
-      return this.remote ? 300 : 0
+      return this.remote ? 300 : 300
     }
   },
   watch: {
     value (val, oldVal) {
       // 监听value是否变化
-      console.log('>>>>>>>>>value (val, oldVal)', this.multiple)
+      console.log('>>>>>>>>>value (val, oldVal)')
       if (this.multiple) {
         // 如果多选时,重置input的高度
         this.resetInputHeight()
@@ -225,7 +250,6 @@ export default {
           this.handleQueryChange(this.query)
         }
       }
-      console.log('=======val', val)
       this.setSelected()
       if (this.filterable && !this.multiple) {
         this.inputLength = 20
@@ -283,6 +307,26 @@ export default {
       } else {
         // 如果下拉选项可见,则通知下来选项
         this.broadcast('ZzrSelectDropdown', 'updatePopper')
+        if (this.filterable) {
+          // 如果过滤存在, 当remote存在时,query为空,当不存在时,为当前selectedLabel
+          this.query = this.remote ? '' : this.selectedLabel
+          // 启动查询
+          this.handleQueryChange(this.query)
+          if (this.multiple) {
+            this.$refs.input.focus()
+          } else {
+            if (!this.remote) {
+              this.broadcast('ZzrOption', 'queryChange', '')
+              this.broadcast('ZzrOptionGroup', 'queryChange')
+            }
+
+            if (this.selectedLabel) {
+              // 如果选中项存在,则如此设置
+              this.currentPlaceholder = this.selectedLabel
+              this.selectedLabel = ''
+            }
+          }
+        }
       }
       // 触发 visible-change事件
       // this.$emit('visible-change', val);
@@ -317,13 +361,11 @@ export default {
 
     // 松开键盘时调用
     this.debouncedOnInputChange = debounce(this.debounce, () => {
-      console.log('this.debouncedOnInputChange')
       this.onInputChange()
     })
 
     // 木有动
     this.debouncedQueryChange = debounce(this.debounce, (e) => {
-      console.log('this.debouncedQueryChange')
       this.handleQueryChange(e.target.value)
     })
 
@@ -372,10 +414,28 @@ export default {
     handleClose () {
       this.visible = false
     },
-    handleFocus () {
-
+    handleFocus (event) {
+      if (!this.softFocus) {
+        if (this.automaticDropdown || this.filterable) {
+          this.visible = true
+          if (this.filterable) {
+            this.menuVisibleOnFocus = true
+          }
+        }
+        this.$emit('focus', event)
+      } else {
+        this.softFocus = false
+      }
     },
     handleBlur (event) {
+      setTimeout(() => {
+        if (this.isSilentBlur) {
+          this.isSilentBlur = false
+        } else {
+          this.$emit('blur', event)
+        }
+      }, 50)
+      this.softFocus = false
     },
     handleClickClear (event) {
       this.deleteSelected(event)
@@ -390,7 +450,6 @@ export default {
       this.$emit('clear')
     },
     handleQueryChange (val) {
-      console.log(val)
       if (this.previousQuery === val || this.isOnComposition) return
       if (
         this.previousQuery === null &&
@@ -401,7 +460,6 @@ export default {
       }
       this.previousQuery = val
       this.$nextTick(() => {
-        console.log('**********')
         if (this.visible) this.broadcast('ZzrSelectDropdown', 'updatePopper')
       })
       this.hoverIndex = -1
@@ -414,23 +472,20 @@ export default {
         })
       }
       if (this.remote && typeof this.remoteMethod === 'function') {
-        console.log('1111111this.remote && typeof this.remoteMethod === \'function\'')
         this.hoverIndex = -1
         this.remoteMethod(val)
       } else if (typeof this.filterMethod === 'function') {
-        console.log('222222222222')
         this.filterMethod(val)
         this.broadcast('ZzrOptionGroup', 'queryChange')
       } else {
-        console.log('3333333333')
-
         this.filteredOptionsCount = this.optionsCount
+        // 输入搜索条件的时候,走的是这里
+        console.log('>>>>>>>>>>', this.filteredOptionsCount, val)
         this.broadcast('ZzrOption', 'queryChange', val)
         this.broadcast('ZzrOptionGroup', 'queryChange')
       }
       if (this.defaultFirstOption && (this.filterable || this.remote) && this.filteredOptionsCount) {
-        console.log('44444444')
-
+        console.log('>>>>>>>>>>', this.defaultFirstOption)
         this.checkDefaultFirstOption()
       }
     },
@@ -466,6 +521,7 @@ export default {
 
     // 传递选择事件
     handleOptionSelect (option, byClick) {
+      console.log('handleOptionSelect')
       if (this.multiple) {
         // 如果多选存在
         const value = (this.value || []).slice() // 数组
@@ -487,6 +543,7 @@ export default {
         // if (this.filterable) this.$refs.input.focus()
       } else {
         // 如果为单选, 则为v-model的值
+        console.log('*********')
         this.$emit('input', option.value)
         this.emitChange(option.value)
         this.visible = false
@@ -525,9 +582,7 @@ export default {
     },
     // 接收设置事件
     setSelected () {
-      console.log('>>>>>>>>>>>setSelected', this.multiple)
       if (!this.multiple) {
-        console.log('>>>>>>>>>>>', '!this.multiple')
         // 不为多选时, 设置新的选项
         let option = this.getOption(this.value)
         if (option.created) {
@@ -550,6 +605,7 @@ export default {
       if (Array.isArray(this.value)) {
         this.value.forEach(value => {
           result.push(this.getOption(value))
+          console.log(result)
         })
       }
       this.selected = result
@@ -576,9 +632,7 @@ export default {
           option = cachedOption
           break
         }
-        console.log('******************')
       }
-      console.log('QQQQQQQQQQQQQQQQQQQQQQQ')
       // 拿到的是一个对象
       if (option) return option
       const label = (!isObject && !isNull && !isUndefined)
@@ -681,7 +735,9 @@ export default {
     // 如果可以过滤 搜索条件也不等于当前值，那么调用
     onInputChange () {
       if (this.filterable && this.query !== this.selectedLabel) {
+        // 将query等于
         this.query = this.selectedLabel
+        // console.log(this.query)
         this.handleQueryChange(this.query)
       }
     }

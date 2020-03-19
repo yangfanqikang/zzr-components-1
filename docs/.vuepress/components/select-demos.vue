@@ -141,6 +141,50 @@
       </div>
       <pre><code>{{content8}}</code></pre>
     </div>
+    <div>
+      <h4>远程搜索</h4>
+      <p>从服务器搜索数据，输入关键字进行查找</p>
+      <div class="input-demos-ex1">
+        <zzr-select
+          v-model="value8"
+          multiple
+          filterable
+          remote
+          reserve-keyword
+          placeholder="请输入关键词"
+          :remote-method="remoteMethod"
+          :loading="loading">
+          <zzr-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </zzr-option>
+        </zzr-select>
+      </div>
+      <pre><code>{{content9}}</code></pre>
+    </div>
+    <div>
+      <h4>创建条目</h4>
+      <p>可以创建并选中选项中不存在的条目</p>
+      <div class="input-demos-ex1">
+        <zzr-select
+          v-model="value9"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          placeholder="请选择文章标签">
+          <zzr-option
+            v-for="item in options3"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </zzr-option>
+        </zzr-select>
+      </div>
+      <pre><code>{{content10}}</code></pre>
+    </div>
   </div>
 </template>
 
@@ -161,6 +205,38 @@
         value5: '',
         value6: '',
         value7: '',
+        value8: [],
+        value9: [],
+        options2: [],
+        options3: [{
+          value: 'HTML',
+          label: 'HTML'
+        }, {
+          value: 'CSS',
+          label: 'CSS'
+        }, {
+          value: 'JavaScript',
+          label: 'JavaScript'
+        }],
+        list: [],
+        loading: false,
+        states: ["Alabama", "Alaska", "Arizona",
+          "Arkansas", "California", "Colorado",
+          "Connecticut", "Delaware", "Florida",
+          "Georgia", "Hawaii", "Idaho", "Illinois",
+          "Indiana", "Iowa", "Kansas", "Kentucky",
+          "Louisiana", "Maine", "Maryland",
+          "Massachusetts", "Michigan", "Minnesota",
+          "Mississippi", "Missouri", "Montana",
+          "Nebraska", "Nevada", "New Hampshire",
+          "New Jersey", "New Mexico", "New York",
+          "North Carolina", "North Dakota", "Ohio",
+          "Oklahoma", "Oregon", "Pennsylvania",
+          "Rhode Island", "South Carolina",
+          "South Dakota", "Tennessee", "Texas",
+          "Utah", "Vermont", "Virginia",
+          "Washington", "West Virginia", "Wisconsin",
+          "Wyoming"],
         cities: [{
           value: 'Beijing',
           label: '北京'
@@ -268,6 +344,38 @@
     :value="item.value">
   </zzr-option>
 </zzr-select>`.replace(/^ {8}/gm, '').trim(),
+        content9: `
+<zzr-select
+  v-model="value8"
+  multiple
+  filterable
+  remote
+  reserve-keyword
+  placeholder="请输入关键词"
+  :remote-method="remoteMethod"
+  :loading="loading">
+  <zzr-option
+    v-for="item in options2"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value">
+  </zzr-option>
+</zzr-select>`.replace(/^ {8}/gm, '').trim(),
+        content10: `
+<zzr-select
+  v-model="value9"
+  multiple
+  filterable
+  allow-create
+  default-first-option
+  placeholder="请选择文章标签">
+  <zzr-option
+    v-for="item in options3"
+    :key="item.value"
+    :label="item.label"
+    :value="item.value">
+  </zzr-option>
+</zzr-select>`.replace(/^ {8}/gm, '').trim(),
         options: [
           {
           value: '选项1',
@@ -314,6 +422,27 @@
         }],
       }
     },
+    mounted () {
+      this.list = this.states.map(item => {
+        return { value: `value:${item}`, label: `label:${item}` };
+      });
+    },
+    methods: {
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.options2 = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.options2 = [];
+        }
+      }
+    }
   }
 </script>
 

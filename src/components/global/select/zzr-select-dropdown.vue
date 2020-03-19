@@ -60,8 +60,7 @@ export default {
     this.$parent.popperElm = this.popperElm = this.$el
     this.$on('updatePopper', () => {
       if (this.$parent.visible) this.updatePopper()
-      console.log('>>>>>>>>>>>>>>>>>>')
-      console.log(this.$parent.$refs.reference.$refs.input.offsetWidth)
+      // console.log(this.$parent.$refs.reference.$refs.input.offsetWidth)
       this.minWidth = (this.$parent.$refs.reference.$refs.input.offsetWidth || this.$parent.$refs.input.offsetWidth) + 'px'
       // console.log(this.minWidth)
     })

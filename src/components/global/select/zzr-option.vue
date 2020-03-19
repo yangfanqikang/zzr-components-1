@@ -17,7 +17,7 @@
 
 <script>
 import Emitter from '../../../mixins/emitter'
-import { getValueByPath } from '../../../util/util'
+import { getValueByPath, escapeRegexpString } from '../../../util/util'
 
 export default {
   name: 'zzr-option',
@@ -62,6 +62,7 @@ export default {
       if (!this.created && !this.select.remote) this.dispatch('ZzrSelect', 'setSelected')
     },
     value (val, oldVal) {
+      console.log('^^^^^^^^^^^^^^^^^^')
       const { valueKey, remote } = this.select
       if (!this.created && !remote) {
         if (valueKey && typeof val === 'object' && typeof oldVal === 'object' && val[valueKey] === oldVal[valueKey]) {
@@ -122,8 +123,15 @@ export default {
         this.dispatch('ZzrSelect', 'handleOptionClick', [this, true])
       }
     },
-    queryChange () {
-      console.log('zzrOption>>>>>>>>>>>>>>>')
+    // 可搜索
+    queryChange (query) {
+      // 搜索能成功,但是直接多添加了一个
+      console.log('>>>>>>>>>>>>>option=============queryChange'+ query)
+      this.visible = new RegExp(escapeRegexpString(query), 'i').test(this.currentLabel) || this.created
+      console.log(this.visible)
+      if (!this.visible) {
+        this.select.filteredOptionsCount--
+      }
     },
     handleGroupDisabled () {
     }
