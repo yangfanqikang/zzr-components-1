@@ -1,13 +1,13 @@
 <template>
   <div class="zzr-show-card">
-    <h4>{{title}}</h4>
-    <p>{{des}}</p>
+    <h4>{{title || obj.title}}</h4>
+    <p>{{des || obj.des}}</p>
     <div class="ex1" :class="[
       {'is-flex': isFlex}
     ]">
       <slot></slot>
     </div>
-    <pre><code>{{content}}</code></pre>
+    <pre><code>{{content || obj.content}}</code></pre>
   </div>
 </template>
 
@@ -15,6 +15,10 @@
   export default {
     name: 'zzr-show-card',
     props: {
+      obj: {
+        type: Object,
+        default: () => new Object()
+      },
       title: String,
       des: String,
       content: String,

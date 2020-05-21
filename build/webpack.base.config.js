@@ -7,6 +7,7 @@ let { CleanWebpackPlugin } = require('clean-webpack-plugin') // 打包前清除d
 let webpack = require('webpack')
 
 module.exports = {
+  useEslint: false,
   entry: [
     '@babel/polyfill',
     path.resolve(__dirname, '../src/main.js')
