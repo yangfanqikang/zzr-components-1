@@ -21,7 +21,8 @@ export default {
   },
   computed: {
     iconName () {
-      return `#icon${this.name}`
+      let str = this.name.replace(/_/g, '')
+      return `#icon${str}`
     },
     sizeValue () {
       if (this.size) {

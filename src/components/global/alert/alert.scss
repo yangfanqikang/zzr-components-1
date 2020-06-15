@@ -1,23 +1,73 @@
 @import "../../../styles/el/common/var";
-@import "../../../styles/el/mixins/mixins";
-
-@include b(alert) {
+.zzr-alert{
   width: 100%;
-  padding: $--alert-padding;
-  margin: 0;
+  padding: 0 10px;
   box-sizing: border-box;
-  border-radius: $--alert-border-radius;
-  position: relative;
-  background-color: $--color-white;
-  overflow: hidden;
-  opacity: 1;
+  line-height: 50px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
-  transition: opacity .2s;
+  //dark light
 
+  &.zzr-alert--success{
+    &.is-dark{
+      background-color: $--color-success;
+      color: $--color-white;
+    }
+    &.is-light{
+      background-color: $--alert-success-color;
+      color: darken($--alert-success-color,50%);
+    }
 
+  }
+  &.zzr-alert--info{
+    &.is-dark{
+      background-color: $--color-info;
+      color: $--color-white;
+    }
+    &.is-light{
+      background-color: $--alert-info-color;
+      color: darken($--alert-info-color,50%);
+    }
+
+  }
+  &.zzr-alert--warning{
+    &.is-dark{
+      background-color: $--color-warning;
+      color: $--color-white;
+    }
+    &.is-light{
+      background-color: $--alert-warning-color;
+      color: darken($--alert-warning-color,50%);
+    }
+
+  }
+  &.zzr-alert--error{
+    &.is-dark{
+      background-color: $--color-danger;
+      color: $--color-white;
+    }
+    &.is-light{
+      background-color: $--alert-danger-color;
+      color: darken($--alert-danger-color,50%);
+    }
+  }
+  >.zzr-alert__content{
+    position: relative;
+    width: 100%;
+    >div{
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
-
 .zzr-alert-fade-enter,
 .zzr-alert-fade-leave-active {
   opacity: 0;

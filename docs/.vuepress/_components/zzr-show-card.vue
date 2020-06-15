@@ -3,8 +3,8 @@
     <h4>{{title || obj.title}}</h4>
     <p>{{des || obj.des}}</p>
     <div class="ex1" :class="[
-      {'is-flex': isFlex}
-    ]">
+      {'is-flex': isFlex},
+    ]" :style="{width: realWidth}">
       <slot></slot>
     </div>
     <pre><code>{{content || obj.content}}</code></pre>
@@ -23,7 +23,11 @@
       des: String,
       content: String,
       isFlex: false,
-      multiple: false
+      multiple: false,
+      realWidth: {
+        type: String,
+        default: '180px'
+      }
     }
   }
 </script>
