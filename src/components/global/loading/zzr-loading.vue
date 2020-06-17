@@ -42,4 +42,5 @@ export default {
 </script>
 <style lang="scss">
   @import "zzr-loading";
+  @import "../el-icon/icon";
 </style>
