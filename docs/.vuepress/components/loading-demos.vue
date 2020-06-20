@@ -32,7 +32,12 @@
           title: '自定义',
           value: '',
           des: '可自定义加载文案、图标和背景色。',
-          content: ' <div class="show-loading" v-loading="true"></div>'
+          content: '<div class="show-loading" \n' +
+            '     v-loading="true"\n' +
+            '     zzr-loading-text="拼命加载中"\n' +
+            '     zzr-loading-spinner="el-icon-loading"\n' +
+            '     zzr-loading-background="rgba(0, 0, 0, 0.8)">\n' +
+            '</div>'
         },
       }
     },
