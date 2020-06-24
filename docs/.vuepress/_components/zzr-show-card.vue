@@ -34,6 +34,7 @@
 
 <style lang="scss" scoped>
   .zzr-show-card {
+    margin-top: 20px;
     .ex1{
       width: 180px;
       margin: 10px 0;

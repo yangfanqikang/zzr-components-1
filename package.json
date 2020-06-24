@@ -15,6 +15,7 @@
   "dependencies": {
     "@popperjs/core": "^2.1.0",
     "core-js": "^3.4.3",
+    "deepmerge": "^4.2.2",
     "lodash": "latest",
     "normalize.css": "^8.0.1",
     "throttle-debounce": "^2.1.0",
