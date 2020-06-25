@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import '../../../assets/font/iconfont'
 export default {
   name: 'zzr-icon',
   props: {

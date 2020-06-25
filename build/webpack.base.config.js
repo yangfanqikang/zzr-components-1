@@ -12,6 +12,7 @@ module.exports = {
     '@babel/polyfill',
     path.resolve(__dirname, '../src/main.js')
   ],
+  globalObject: 'this',
   output: {
     filename: 'js/[name].[hash:8].js', // 打包后的js文件放在js目录下，添加hash值防止缓存
     chunkFilename: 'js/[name].[hash:8].js', // 配合按需加载路由来使用，用来修改打包后的各个JS模块文件名字，具体请看下方打包后的截图
