@@ -2,6 +2,7 @@ import Vue from 'vue'
 import MessageBox from '../../src/components/global/message-box/main.js'
 import Message from '../../src/components/global/message/main'
 import Notification from '../../src/components/global/notification/main'
+import popover from '../../src/components/global/popover/directive'
 import '../../src/components/global/el-icon/icon.scss'
 export default ({
   Vue, // VuePress 正在使用的 Vue 构造函数
@@ -15,6 +16,7 @@ export default ({
   Vue.prototype.$prompt = MessageBox.prompt;
   Vue.prototype.$message = Message;
   Vue.prototype.$notify = Notification;
+  Vue.directive('popover', popover);
   Vue.mixin({
     mounted() {
       import('../../src/assets/font/iconfont')
